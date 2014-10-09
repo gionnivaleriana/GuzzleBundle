@@ -1,0 +1,19 @@
+{
+    "authors": [
+        {
+            "email": "emanuele.minotto@kopjra.com",
+            "name": "Emanuele Minotto"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kopjra\\GuzzleBundle\\": ""
+        }
+    },
+    "description": "Kopjra Guzzle 4 Bundle",
+    "name": "kopjra/guzzle-bundle",
+    "require": {
+        "guzzlehttp/guzzle": "~4",
+        "php": ">= 5.4"
+    }
+}
