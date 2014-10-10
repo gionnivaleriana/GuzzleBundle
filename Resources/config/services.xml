@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <parameters>
+    <parameter hey="kopjra_guzzle.logger">logger</parameter>
+    <parameter hey="kopjra_guzzle.log_subscriber">Kopjra\GuzzleBundle\EventListener\LogSubscriber</parameter>
+  </parameters>
+
   <services>
     <service id="guzzle" class="GuzzleHttp\Client">
       <argument></argument>
@@ -9,5 +15,9 @@
       <argument type="service" id="guzzle"/>
     </service>
     <service id="kopjra.guzzle_bundle.event_listener.emitter" class="Kopjra\GuzzleBundle\EventListener\Emitter" public="false"/>
+    <service id="kopjra.guzzle_bundle.event_listener.log_subscriber" class="%kopjra_guzzle.log_subscriber%" public="false">
+      <argument type="service" id="%kopjra_guzzle.logger%"/>
+      <tag name="guzzle.event_subscriber"/>
+    </service>
   </services>
 </container>
