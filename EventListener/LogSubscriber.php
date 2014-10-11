@@ -10,17 +10,17 @@ use GuzzleHttp\Event\SubscriberInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * ...
+ * Utility used to log requests and responses.
  */
 class LogSubscriber implements SubscriberInterface
 {
     /**
-     * ...
+     * @var \Psr\Log\LoggerInterface
      */
     private $logger;
 
     /**
-     * ...
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
     {
@@ -28,7 +28,7 @@ class LogSubscriber implements SubscriberInterface
     }
 
     /**
-     * ...
+     * {@inheritdoc}
      */
     public function getEvents()
     {
@@ -46,7 +46,9 @@ class LogSubscriber implements SubscriberInterface
     }
 
     /**
-     * ...
+     * Log before the request
+     *
+     * Example: [before] GET http://www.example.com/path
      */
     public function onBefore(BeforeEvent $event, $name, EmitterInterface $emitter)
     {
@@ -64,7 +66,9 @@ class LogSubscriber implements SubscriberInterface
     }
 
     /**
-     * ...
+     * Log after a request is completed
+     *
+     * Example: [complete] 200 http://www.example.com/path
      */
     public function onComplete(CompleteEvent $event, $name, EmitterInterface $emitter)
     {
@@ -82,7 +86,10 @@ class LogSubscriber implements SubscriberInterface
     }
 
     /**
-     * ...
+     * Log after an error is thrown or an error was received, 5XX are considered error
+     *
+     * Example: [warning] 404 (Page Not Found) http://www.example.com/path
+     * Example: [error] 500 (Server Error) http://www.example.com/path
      */
     public function onError(ErrorEvent $event, $name, EmitterInterface $emitter)
     {
@@ -93,7 +100,7 @@ class LogSubscriber implements SubscriberInterface
         $method = $exception->getThrowImmediately() ? 'error' : 'warning';
         $message = sprintf(
             '[%s] %s (%s) %s',
-            $name,
+            $method,
             $response->getStatusCode(),
             $response->getReasonPhrase(),
             $response->getEffectiveUrl()

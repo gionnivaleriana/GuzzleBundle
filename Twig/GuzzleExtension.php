@@ -16,12 +16,16 @@ use Twig_SimpleTest;
 class GuzzleExtension extends Twig_Extension
 {
     /**
-     * ...
+     * Guzzle dependency
+     *
+     * @var \GuzzleHttp\ClientInterface
      */
     private $client;
 
     /**
-     * ...
+     * Constructor used only to inject the Guzzle dependency
+     *
+     * @param \GuzzleHttp\ClientInterface $client
      */
     public function __construct(ClientInterface $client)
     {
