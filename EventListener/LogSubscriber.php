@@ -50,7 +50,7 @@ class LogSubscriber implements SubscriberInterface
      *
      * Example: [before] GET http://www.example.com/path
      */
-    public function onBefore(BeforeEvent $event, $name, EmitterInterface $emitter)
+    public function onBefore(BeforeEvent $event, $name, EmitterInterface $emitter = null)
     {
         $logger = $this->logger;
         $request = $event->getRequest();
@@ -70,7 +70,7 @@ class LogSubscriber implements SubscriberInterface
      *
      * Example: [complete] 200 http://www.example.com/path
      */
-    public function onComplete(CompleteEvent $event, $name, EmitterInterface $emitter)
+    public function onComplete(CompleteEvent $event, $name, EmitterInterface $emitter = null)
     {
         $logger = $this->logger;
         $response = $event->getResponse();
@@ -91,7 +91,7 @@ class LogSubscriber implements SubscriberInterface
      * Example: [warning] 404 (Page Not Found) http://www.example.com/path
      * Example: [error] 500 (Server Error) http://www.example.com/path
      */
-    public function onError(ErrorEvent $event, $name, EmitterInterface $emitter)
+    public function onError(ErrorEvent $event, $name, EmitterInterface $emitter = null)
     {
         $logger = $this->logger;
         $exception = $event->getException();
