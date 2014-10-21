@@ -192,11 +192,9 @@ class OAuthSubscriber implements SubscriberInterface {
         // ordering. Ref: Spec: 9.1.1 (1).
         uksort($data, 'strcmp');
 
-        foreach ($data as $key => $value) {
-            if ($value === null) {
-                unset($data[$key]);
-            }
-        }
+        $data = array_filter($data, function ($value) {
+            return $value !== null;
+        });
 
         return $data;
     }
