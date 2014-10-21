@@ -1,10 +1,4 @@
 <?php
-/**
- * Created Joy Lazari
- * Email: joy.lazari@gmail.com
- * Date: 17/10/14
- * Time: 13.10
- */
 
 namespace Kopjra\GuzzleBundle\OAuth;
 
@@ -18,6 +12,11 @@ use GuzzleHttp\Query;
 use GuzzleHttp\Url;
 
 
+/**
+ * Class OAuthSubscriber
+ * @author Joy Lazari <joy.lazari@gmail.com>
+ * @package Kopjra\GuzzleBundle\OAuth
+ */
 class OAuthSubscriber implements SubscriberInterface {
 
     const REQUEST_METHOD_HEADER         = 'header';
@@ -44,10 +43,7 @@ class OAuthSubscriber implements SubscriberInterface {
     }
 
     /**
-     * Set up the configuration for the OAuth.
-     * If the class is called as a Service, you need to use this method to overide the missing __construct
-     *
-     * The fromConfig method of class Collections works as [config, defaults, required].
+     * Set up the configuration for the OAuth
      *
      * @param array $config
      */
@@ -61,10 +57,16 @@ class OAuthSubscriber implements SubscriberInterface {
         ], ['signature_method', 'version', 'consumer_key', 'consumer_secret']);
     }
 
+    /**
+     * @return array
+     */
     public function getEvents(){
         return ['before' => ['onBefore', RequestEvents::SIGN_REQUEST]];
     }
 
+    /**
+     * @param BeforeEvent $event
+     */
     public function onBefore(BeforeEvent $event){
         $request = $event->getRequest();
 
@@ -199,14 +201,14 @@ class OAuthSubscriber implements SubscriberInterface {
         return $data;
     }
 
-    private function sign_HMAC_SHA1($baseString){
+    private function SignHmacSha1($baseString){
         $key = rawurlencode($this->config['consumer_secret'])
             . '&' . rawurlencode($this->config['token_secret']);
 
         return hash_hmac('sha1', $baseString, $key, true);
     }
 
-    private function sign_RSA_SHA1($baseString){
+    private function SignRsaSha1($baseString){
         if (!function_exists('openssl_pkey_get_private')) {
             throw new \RuntimeException('RSA-SHA1 signature method '
                 . 'requires the OpenSSL extension.');
@@ -224,7 +226,7 @@ class OAuthSubscriber implements SubscriberInterface {
         return $signature;
     }
 
-    private function sign_PLAINTEXT($baseString){
+    private function SignPlaintext($baseString){
         return $baseString;
     }
 
