@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class KopjraGuzzleBundle extends Bundle
 {
     /**
-     * ...
+     * @param ContainerBuilder $container
      */
     public function build(ContainerBuilder $container)
     {

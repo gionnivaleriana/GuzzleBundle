@@ -18,5 +18,8 @@
       <argument type="service" id="logger"/>
       <tag name="guzzle.event_subscriber"/>
     </service>
+    <service id="guzzle_oauth" class="Kopjra\GuzzleBundle\OAuth\OAuthSubscriber">
+        <argument></argument>
+    </service>
   </services>
 </container>
