@@ -21,10 +21,13 @@ class OAuthSubscriber implements SubscriberInterface {
 
     const REQUEST_METHOD_HEADER         = 'header';
     const REQUEST_METHOD_QUERY          = 'query';
-    const SIGNATURE_METHOD_HMAC         = 'HMAC-SHA1';
-    const SIGNATURE_METHOD_RSA          = 'RSA-SHA1';
-    const SIGNATURE_METHOD_PLAINTEXT    = 'PLAINTEXT';
+    const SIGNATURE_METHOD_HMAC         = 'Hmac-Sha1';
+    const SIGNATURE_METHOD_RSA          = 'Rsa-Sha1';
+    const SIGNATURE_METHOD_PLAINTEXT    = 'Plain-Text';
 
+    /**
+     * @var Collection
+     */
     public $config;
 
     /**
@@ -34,10 +37,10 @@ class OAuthSubscriber implements SubscriberInterface {
         if(!empty($config)) {
             $this->config = Collection::fromConfig($config, [
                 'version' => '1.0',
-                'request_method' => 'header',
+                'request_method' => self::REQUEST_METHOD_HEADER,
                 'consumer_key' => 'anonymous',
                 'consumer_secret' => 'anonymous',
-                'signature_method' => 'HMAC-SHA1',
+                'signature_method' => self::SIGNATURE_METHOD_HMAC,
             ], ['signature_method', 'version', 'consumer_key', 'consumer_secret']);
         }
     }
@@ -131,8 +134,8 @@ class OAuthSubscriber implements SubscriberInterface {
         );
 
         // Implements double-dispatch to sign requests
-        $meth = [$this, 'sign_' . str_replace(
-                '-', '_', $this->config['signature_method']
+        $meth = [$this, 'sign' . str_replace(
+                '-', '', $this->config['signature_method']
             )];
 
         if (!is_callable($meth)) {
@@ -199,14 +202,22 @@ class OAuthSubscriber implements SubscriberInterface {
         return $data;
     }
 
-    private function SignHmacSha1($baseString){
+    /**
+     * @param $baseString
+     * @return string
+     */
+    private function signHmacSha1($baseString){
         $key = rawurlencode($this->config['consumer_secret'])
             . '&' . rawurlencode($this->config['token_secret']);
 
         return hash_hmac('sha1', $baseString, $key, true);
     }
 
-    private function SignRsaSha1($baseString){
+    /**
+     * @param $baseString
+     * @return bool
+     */
+    private function signRsaSha1($baseString){
         if (!function_exists('openssl_pkey_get_private')) {
             throw new \RuntimeException('RSA-SHA1 signature method '
                 . 'requires the OpenSSL extension.');
@@ -224,7 +235,11 @@ class OAuthSubscriber implements SubscriberInterface {
         return $signature;
     }
 
-    private function SignPlaintext($baseString){
+    /**
+     * @param $baseString
+     * @return mixed
+     */
+    private function signPlainText($baseString){
         return $baseString;
     }
 
