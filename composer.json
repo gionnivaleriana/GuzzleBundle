@@ -14,7 +14,8 @@
     "name": "kopjra/guzzle-bundle",
     "require": {
         "guzzlehttp/guzzle": "~4",
-        "guzzlehttp/oauth-subscriber": "0.1.*"
+        "guzzlehttp/oauth-subscriber": "0.1.*",
+        "guzzlehttp/cache-subscriber": "0.1.*@dev",
         "php": ">= 5.4"
     }
 }
