@@ -18,6 +18,6 @@ class KopjraGuzzleBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new EventsCompilerPass);
+        $container->addCompilerPass(new EventsCompilerPass());
     }
 }
