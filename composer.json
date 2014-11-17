@@ -10,10 +10,9 @@
             "Kopjra\\GuzzleBundle\\": ""
         }
     },
-    "description": "Kopjra Guzzle 4 Bundle",
+    "description": "Kopjra Guzzle 5 Bundle",
     "name": "kopjra/guzzle-bundle",
     "require": {
-        "guzzlehttp/guzzle": "~4",
-        "php": ">= 5.4"
+        "guzzlehttp/guzzle": "~5.0"
     }
 }
