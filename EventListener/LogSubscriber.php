@@ -90,14 +90,16 @@ class LogSubscriber implements SubscriberInterface
      *
      * Example: [warning] 404 (Page Not Found) http://www.example.com/path
      * Example: [error] 500 (Server Error) http://www.example.com/path
+     * @param ErrorEvent $event
+     * @param $name
+     * @param EmitterInterface $emitter
      */
     public function onError(ErrorEvent $event, $name, EmitterInterface $emitter = null)
     {
         $logger = $this->logger;
         $exception = $event->getException();
         $response = $event->getResponse();
-
-        $method = $exception->getThrowImmediately() ? 'error' : 'warning';
+        $method = 'error';
         $message = sprintf(
             '[%s] %s (%s) %s',
             $method,
