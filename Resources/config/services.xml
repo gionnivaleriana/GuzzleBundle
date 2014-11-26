@@ -20,5 +20,6 @@
     </service>
     <service id="guzzle_oauth" class="Kopjra\GuzzleBundle\OAuth\OAuthSubscriber"/>
     <service id="guzzle_cache" class="Kopjra\GuzzleBundle\Cache\CacheSubscriber"/>
+    <service id="guzzle_retry" class="Kopjra\GuzzleBundle\Retry\RetrySubscriber"/>
   </services>
 </container>
