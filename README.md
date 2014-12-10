@@ -42,5 +42,5 @@ $response = $client->get('http://httpbin.org/cache/60');
 - [x] OAuth Subscriber
 - [x] Cache Subscriber - Client side
 - [ ] Cache Subscriber - Server side
-- [ ] Retry Subscriber
+- [x] Retry Subscriber
 - [ ] Guzzle Services
