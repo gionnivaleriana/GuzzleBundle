@@ -3,6 +3,10 @@
         {
             "email": "emanuele.minotto@kopjra.com",
             "name": "Emanuele Minotto"
+        },
+        {
+            "email": "joy.lazari@gmail.com",
+            "name": "Joy Lazari"
         }
     ],
     "autoload": {
@@ -10,8 +14,8 @@
             "Kopjra\\GuzzleBundle\\": ""
         }
     },
-    "description": "Kopjra Guzzle 4 Bundle",
-    "name": "kopjra/guzzle-bundle",
+    "description": "Kopjra Guzzle 5 Bundle",
+    "name": "gionnivaleriana/guzzle-bundle",
     "require": {
         "guzzlehttp/guzzle": "~5.0",
         "guzzlehttp/log-subscriber": "~1.0",
