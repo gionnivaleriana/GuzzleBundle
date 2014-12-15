@@ -30,7 +30,7 @@ class RetrySubscriber implements SubscriberInterface {
     /** @var int */
     private $maxRetries;
 
-    public function appendConfig(array $config) {
+    public function config(array $config) {
         if (!isset($config['filter'])) {
             throw new \InvalidArgumentException('A "filter" is required');
         }
