@@ -25,7 +25,7 @@ $response = $client->get(
 );
 ```
 
-#### Cache Subscriber
+#### Cache Subscriber - Client side
 
 ```php
 $client = $this->get("guzzle");
@@ -36,3 +36,11 @@ $client->getEmitter()->attach($cache);
 
 $response = $client->get('http://httpbin.org/cache/60');
 ```
+
+### TO DO List
+
+- [x] OAuth Subscriber
+- [x] Cache Subscriber - Client side
+- [ ] Cache Subscriber - Server side
+- [x] Retry Subscriber
+- [ ] Guzzle Services
