@@ -71,14 +71,16 @@ class CacheSubscriber implements SubscriberInterface {
         $emitter = $client->getEmitter();
         $emitter->attach(new self($options['storage'],$options['can_cache']));
 
-        if (!isset($options['validate']) || $options['validate'] === true) {
-            $emitter->attach(new ValidationSubscriber($options['storage'], $options['can_cache'])
+        if (!isset($options['validate']) || $options['validate'] === true)
+            $emitter->attach(
+                new ValidationSubscriber($options['storage'],
+                    $options['can_cache'])
             );
-        }
 
-        if (!isset($options['purge']) || $options['purge'] === true) {
-            $emitter->attach(new PurgeSubscriber($options['storage']));
-        }
+        if (!isset($options['purge']) || $options['purge'] === true)
+            $emitter->attach(
+                new PurgeSubscriber($options['storage'])
+            );
     }
 
     /**
@@ -105,9 +107,14 @@ class CacheSubscriber implements SubscriberInterface {
             $this->cacheMiss($request);
             return;
         }
+        /* FIXME: Trying to block further http request, getting cached copy immediately */
+        else {
+            $event->intercept($response);
+            $valid = true;
+        }
 
-        $response->setHeader('Age', Utils::getResponseAge($response));
-        $valid = $this->validate($request, $response);
+        //$response->setHeader('Age', Utils::getResponseAge($response));
+        //$valid = $this->validate($request, $response);
 
         // Validate that the response satisfies the request
         if ($valid) {
