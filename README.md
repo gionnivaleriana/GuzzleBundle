@@ -1,7 +1,7 @@
 GuzzleBundle
 ============
 
-Kopjra Guzzle 4 Bundle
+Kopjra Guzzle 5 Bundle
 
 #### OAuth Subscriber
 
