@@ -31,6 +31,13 @@ class CacheSubscriber implements SubscriberInterface {
     protected $storage;
 
     /**
+     * Set cache type to server or client
+     *
+     * @var string
+     */
+    private $cacheType;
+
+    /**
      *
      */
     public function __construct() {
@@ -103,18 +110,25 @@ class CacheSubscriber implements SubscriberInterface {
             return;
         }
 
-        if (!($response = $this->storage->fetch($request))) {
+        if (!$response = $this->storage->fetch($request)) {
             $this->cacheMiss($request);
             return;
         }
-        /* FIXME: Trying to block further http request, getting cached copy immediately */
-        else {
+        // FIXME: Check if it really prevents the http call
+        // If server type cache is setted intercepts the http request,
+        // sets the response as valid
+        // and outputs the cache copy
+        if ($this->cacheType == "server") {
             $event->intercept($response);
             $valid = true;
         }
+        // Otherwise (client cache) validates the request based on
+        // received response after a http call
+        else {
+            $response->setHeader('Age', Utils::getResponseAge($response));
+            $valid = $this->validate($request, $response);
+        }
 
-        //$response->setHeader('Age', Utils::getResponseAge($response));
-        //$valid = $this->validate($request, $response);
 
         // Validate that the response satisfies the request
         if ($valid) {
@@ -240,5 +254,19 @@ class CacheSubscriber implements SubscriberInterface {
                 )
             );
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCacheType() {
+        return $this->cacheType;
+    }
+
+    /**
+     * @param mixed $cacheType
+     */
+    public function setCacheType($cacheType) {
+        $this->cacheType = $cacheType == "server" ? "server" : "client";
     }
 }

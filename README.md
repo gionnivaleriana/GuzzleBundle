@@ -37,6 +37,23 @@ $client->getEmitter()->attach($cache);
 $response = $client->get('http://httpbin.org/cache/60');
 ```
 
+#### Cache Subscriber - Server side
+
+At the moment it only checks the existence of a cached copy, returning it no matter what.
+
+```php
+$client = $this->get("guzzle");
+
+$cache = $this->get("guzzle_cache");
+
+// Sets the cache type to server side
+$cache->setCacheType("server");
+
+$client->getEmitter()->attach($cache);
+
+$response = $client->get('http://httpbin.org/cache/60');
+```
+
 ### TO DO List
 
 - [x] OAuth Subscriber
