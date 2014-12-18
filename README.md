@@ -115,4 +115,4 @@ $response = $client->get('http://httpbin.org/cache/60');
 Authors
 =======
 * ![Emanuele Minotto](https://avatars0.githubusercontent.com/u/417201?s=15) [Emanuele Minotto](https://github.com/emanueleminotto)
-* ![Emanuele Minotto](https://avatars0.githubusercontent.com/u/6898095?s=15) Joy Lazari ([Gionni Valeriana](https://github.com/gionnivaleriana))
+* ![Joy Lazari](https://avatars0.githubusercontent.com/u/6898095?s=15) Joy Lazari ([Gionni Valeriana](https://github.com/gionnivaleriana))
