@@ -102,6 +102,27 @@ $client->getEmitter()->attach($cache);
 $response = $client->get('http://httpbin.org/cache/60');
 ```
 
+#### Retry Subscriber
+
+```php
+$client = $this->get("guzzle");
+
+$retry = $this->get("guzzle_retry");
+
+// Sets the configuration for the subsrcriber
+$retry->config([
+    'filter' => $retry::createChainFilter([
+        $retry::createIdempotentFilter(),
+        // Retries only if the response header has a 304 code.
+        $retry::createStatusFilter([304])
+    ]),
+    // Each retry will be delayed by 1000ms...
+    'delay'  => function () { return 1000; },
+    // ...for max 10 times.
+    'max'    => 10
+]);
+```
+
 ## TO DO List
 
 - [x] OAuth Subscriber
