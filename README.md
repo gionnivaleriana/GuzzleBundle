@@ -54,8 +54,11 @@ Usage
 #### OAuth Subscriber
 
 ```php
+
+/** @var \GuzzleHttp\Client $client */
 $client = $this->get("guzzle");
 
+/** @var \Kopjra\GuzzleBundle\OAuth\OAuthSubscriber $oauth */
 $oauth = $this->get("guzzle_oauth");
 
 $oauth->config([
@@ -67,6 +70,7 @@ $oauth->config([
 
 $client->getEmitter()->attach($oauth);
 
+/** @var \GuzzleHttp\Message\ResponseInterface $response */
 $response = $client->get(
     'https://api.twitter.com/1.1/statuses/home_timeline.json', 
     ['auth' => 'oauth']
@@ -76,12 +80,15 @@ $response = $client->get(
 #### Cache Subscriber - Client side
 
 ```php
+/** @var \GuzzleHttp\Client $client */
 $client = $this->get("guzzle");
 
+/** @var \Kopjra\GuzzleBundle\Cache\CacheSubscriber $oauth */
 $cache = $this->get("guzzle_cache");
 
 $client->getEmitter()->attach($cache);
 
+/** @var \GuzzleHttp\Message\ResponseInterface $response */
 $response = $client->get('http://httpbin.org/cache/60');
 ```
 
@@ -90,8 +97,10 @@ $response = $client->get('http://httpbin.org/cache/60');
 At the moment it only checks the existence of a cached copy, returning it no matter what.
 
 ```php
+/** @var \GuzzleHttp\Client $client */
 $client = $this->get("guzzle");
 
+/** @var \Kopjra\GuzzleBundle\Cache\CacheSubscriber $oauth */
 $cache = $this->get("guzzle_cache");
 
 // Sets the cache type to server side
@@ -99,14 +108,17 @@ $cache->setCacheType("server");
 
 $client->getEmitter()->attach($cache);
 
+/** @var \GuzzleHttp\Message\ResponseInterface $response */
 $response = $client->get('http://httpbin.org/cache/60');
 ```
 
 #### Retry Subscriber
 
 ```php
+/** @var \GuzzleHttp\Client $client */
 $client = $this->get("guzzle");
 
+/** @var \Kopjra\GuzzleBundle\Retry\RetrySubscriber $oauth */
 $retry = $this->get("guzzle_retry");
 
 // Sets the configuration for the subsrcriber
@@ -121,6 +133,11 @@ $retry->config([
     // ...for max 10 times.
     'max'    => 10
 ]);
+
+$client->getEmitter()->attach($retry);
+
+/** @var \GuzzleHttp\Message\ResponseInterface $response */
+$response = $client->get('http://httpbin.org/status/304');
 ```
 
 ## TO DO List
