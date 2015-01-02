@@ -49,6 +49,9 @@ class LogSubscriber implements SubscriberInterface
      * Log before the request
      *
      * Example: [before] GET http://www.example.com/path
+     * @param BeforeEvent $event
+     * @param $name
+     * @param EmitterInterface $emitter
      */
     public function onBefore(BeforeEvent $event, $name, EmitterInterface $emitter = null)
     {
@@ -69,6 +72,9 @@ class LogSubscriber implements SubscriberInterface
      * Log after a request is completed
      *
      * Example: [complete] 200 http://www.example.com/path
+     * @param CompleteEvent $event
+     * @param $name
+     * @param EmitterInterface $emitter
      */
     public function onComplete(CompleteEvent $event, $name, EmitterInterface $emitter = null)
     {
