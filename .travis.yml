@@ -5,3 +5,5 @@ php:
   - 5.5
 
 sudo: false
+
+install: composer install
