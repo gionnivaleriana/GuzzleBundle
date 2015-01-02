@@ -5,5 +5,3 @@ php:
   - 5.5
 
 sudo: false
-
-install: travis_retry composer install --no-interaction --prefer-source
