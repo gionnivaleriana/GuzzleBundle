@@ -17,10 +17,11 @@
     "description": "Kopjra Guzzle 5 Bundle",
     "name": "gionnivaleriana/guzzle-bundle",
     "require-dev": {
-        "symfony-cmf/testing": "1.2.*"
+        "symfony-cmf/testing": "2.0.*@dev"
     },
     "require": {
         "php": ">= 5.4",
+        "symfony/symfony": "~2.5",
         "guzzlehttp/guzzle": "5.1.0",
         "guzzlehttp/log-subscriber": "1.0.1",
         "guzzlehttp/oauth-subscriber": "0.2.0",

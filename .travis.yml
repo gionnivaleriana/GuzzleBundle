@@ -7,14 +7,12 @@ php:
   - hhvm
 
 env:
-  - SYMFONY_VERSION=2.2.*
-  - SYMFONY_VERSION=2.3.*
+  - SYMFONY_VERSION=2.5.*
   - SYMFONY_VERSION=dev-master
 
 before_script:
   - composer self-update
   - composer require symfony/symfony:${SYMFONY_VERSION}
-  - composer update
   - vendor/symfony-cmf/testing/bin/travis/phpcr_odm_doctrine_dbal.sh
 
 script: phpunit --coverage-text
