@@ -1,7 +1,5 @@
-GuzzleBundle
+GuzzleBundle [![Build Status](https://travis-ci.org/gionnivaleriana/GuzzleBundle.svg?branch=master)](https://travis-ci.org/gionnivaleriana/GuzzleBundle)
 ============
-
-[![Build Status](https://travis-ci.org/gionnivaleriana/GuzzleBundle.svg?branch=master)](https://travis-ci.org/gionnivaleriana/GuzzleBundle)
 
 A Guzzle 5 Bundle
 
