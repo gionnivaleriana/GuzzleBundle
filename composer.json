@@ -17,12 +17,12 @@
     "description": "Kopjra Guzzle 5 Bundle",
     "name": "gionnivaleriana/guzzle-bundle",
     "require": {
-        "guzzlehttp/guzzle": "~5.0",
-        "guzzlehttp/log-subscriber": "~1.0",
-        "guzzlehttp/oauth-subscriber": "~0.1",
-        "guzzlehttp/cache-subscriber": "~0.1",
-        "guzzlehttp/retry-subscriber": "~1.0",
-        "guzzlehttp/guzzle-services": "0.5.*",
+        "guzzlehttp/guzzle": "5.0.*@dev",
+        "guzzlehttp/log-subscriber": "1.0.*@dev",
+        "guzzlehttp/oauth-subscriber": "0.1.*@dev",
+        "guzzlehttp/cache-subscriber": "0.2.*@dev",
+        "guzzlehttp/retry-subscriber": "1.0.*@dev",
+        "guzzlehttp/guzzle-services": "0.5.*@dev",
         "php": ">= 5.4"
     }
 }
