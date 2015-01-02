@@ -17,7 +17,7 @@
     "description": "Kopjra Guzzle 5 Bundle",
     "name": "gionnivaleriana/guzzle-bundle",
     "require-dev": {
-        "phpunit/phpunit": "4.4.1"
+        "symfony-cmf/testing": "1.2.*"
     },
     "require": {
         "php": ">= 5.4",
