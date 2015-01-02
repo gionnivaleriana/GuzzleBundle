@@ -190,3 +190,6 @@ Authors
 =======
 * ![Emanuele Minotto](https://avatars0.githubusercontent.com/u/417201?s=15) [Emanuele Minotto](https://github.com/emanueleminotto)
 * ![Joy Lazari](https://avatars0.githubusercontent.com/u/6898095?s=15) Joy Lazari ([Gionni Valeriana](https://github.com/gionnivaleriana))
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gionnivaleriana/guzzlebundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
