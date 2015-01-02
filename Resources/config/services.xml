@@ -7,7 +7,7 @@
 
   <services>
     <service id="guzzle" class="GuzzleHttp\Client">
-      <argument></argument>
+      <argument/>
     </service>
     <service id="kopjra.guzzle_bundle.twig.guzzle_extension" class="Kopjra\GuzzleBundle\Twig\GuzzleExtension" public="false">
       <tag name="twig.extension"/>
@@ -21,5 +21,6 @@
     <service id="guzzle_oauth" class="Kopjra\GuzzleBundle\OAuth\OAuthSubscriber"/>
     <service id="guzzle_cache" class="Kopjra\GuzzleBundle\Cache\CacheSubscriber"/>
     <service id="guzzle_retry" class="Kopjra\GuzzleBundle\Retry\RetrySubscriber"/>
+    <service id="guzzle_services" class="Kopjra\GuzzleBundle\Services\Services"/>
   </services>
 </container>

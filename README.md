@@ -54,7 +54,6 @@ Usage
 #### OAuth Subscriber
 
 ```php
-
 /** @var \GuzzleHttp\Client $client */
 $client = $this->get("guzzle");
 
@@ -140,14 +139,51 @@ $client->getEmitter()->attach($retry);
 $response = $client->get('http://httpbin.org/status/304');
 ```
 
-## TO DO List
+#### Services
+More doc: [/Services/README.md](Services/README.md)
 
-- [x] OAuth Subscriber
-- [x] Cache Subscriber - Client side
-- [x] Cache Subscriber - Server side
-- [x] Retry Subscriber
-- [ ] Guzzle Services
+```php
+/** @var \GuzzleHttp\Client $client */
+$client = $this->get("guzzle");
 
+/** @var \Kopjra\GuzzleBundle\Services\Services $services */
+$services = $this->get("guzzle_services");
+
+$webServices = $services->setWebServices(["webservice1"], ["webservice2"], ["webservice3"]);
+
+/** @var \GuzzleHttp\Command\Guzzle\GuzzleClient $client */
+$client = $services->attachWebService($client, $webService->webservice2);
+
+$response = $client->foo(['bar' => 'baz']);
+```
+
+Content of the file `app/Resources/webservice/foo.json`
+```json
+{
+  "baseUrl": "http:\/\/httpbin.org\/",
+  "operations": {
+    "foo": {
+      "httpMethod": "GET",
+      "uri": "\/get?{bar}",
+      "responseModel": "getResponse",
+      "parameters": {
+        "bar": {
+          "type": "string",
+          "location": "query"
+        }
+      }
+    }
+  },
+  "models": {
+    "getResponse": {
+      "type": "object",
+      "additionalProperties": {
+        "location": "json"
+      }
+    }
+  }
+}
+```
 ----
 
 Authors
