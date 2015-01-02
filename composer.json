@@ -16,13 +16,17 @@
     },
     "description": "Kopjra Guzzle 5 Bundle",
     "name": "gionnivaleriana/guzzle-bundle",
+    "require-dev": {
+        "phpunit/phpunit": "4.4.1"
+    },
     "require": {
-        "guzzlehttp/guzzle": "~5.0",
-        "guzzlehttp/log-subscriber": "~1.0",
-        "guzzlehttp/oauth-subscriber": "0.1.*",
-        "guzzlehttp/cache-subscriber": "0.2.*@dev",
-        "guzzlehttp/retry-subscriber": "~1.0",
-        "guzzlehttp/guzzle-services": "0.5.*",
-        "php": ">= 5.4"
+        "php": ">= 5.4",
+        "guzzlehttp/guzzle": "5.1.0",
+        "guzzlehttp/log-subscriber": "1.0.1",
+        "guzzlehttp/oauth-subscriber": "0.2.0",
+        "guzzlehttp/cache-subscriber": "0.1.0",
+        "guzzlehttp/retry-subscriber": "2.0.2",
+        "guzzlehttp/command": "0.7.0",
+        "guzzlehttp/guzzle-services": "0.5.0"
     }
 }
