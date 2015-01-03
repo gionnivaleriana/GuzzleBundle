@@ -14,7 +14,7 @@ class AppKernel extends TestKernel {
         ));
 
         $this->addBundles(array(
-            new \Symfony\Cmf\Bundle\MyBundle\CmfMyBundle(),
+            new \Kopjra\GuzzleBundle\KopjraGuzzleBundle(),
         ));
     }
 
