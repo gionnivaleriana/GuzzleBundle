@@ -1,6 +1,7 @@
 <?php
 
 namespace Kopjra\GuzzleBundle\Cache;
+
 use Doctrine\Common\Cache\ArrayCache;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\BeforeEvent;
@@ -15,12 +16,11 @@ use GuzzleHttp\Subscriber\Cache\PurgeSubscriber;
 use GuzzleHttp\Subscriber\Cache\ValidationSubscriber;
 use GuzzleHttp\Subscriber\Cache\Utils;
 
-
 /**
  * @author Joy Lazari <joy.lazari@gmail.com>
  */
-class CacheSubscriber implements SubscriberInterface {
-
+class CacheSubscriber implements SubscriberInterface
+{
     /**
      * @var callable
      */
@@ -40,7 +40,8 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->storage = new CacheStorage(new ArrayCache());
         $this->canCache = ['self', 'canCacheRequest'];
     }
@@ -48,7 +49,8 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      * @return array
      */
-    public function getEvents() {
+    public function getEvents()
+    {
         return [
             'before' => [
                 'onBefore',
@@ -64,9 +66,10 @@ class CacheSubscriber implements SubscriberInterface {
 
     /**
      * @param HasEmitterInterface $client
-     * @param null $options
+     * @param null                $options
      */
-    public function attach(HasEmitterInterface $client, $options = null) {
+    public function attach(HasEmitterInterface $client, $options = null)
+    {
         if (!isset($options['storage'])) {
             $options['storage'] = new CacheStorage(new ArrayCache());
         }
@@ -76,25 +79,28 @@ class CacheSubscriber implements SubscriberInterface {
         }
 
         $emitter = $client->getEmitter();
-        $emitter->attach(new self($options['storage'],$options['can_cache']));
+        $emitter->attach(new self($options['storage'], $options['can_cache']));
 
-        if (!isset($options['validate']) || $options['validate'] === true)
+        if (!isset($options['validate']) || $options['validate'] === true) {
             $emitter->attach(
                 new ValidationSubscriber($options['storage'],
                     $options['can_cache'])
             );
+        }
 
-        if (!isset($options['purge']) || $options['purge'] === true)
+        if (!isset($options['purge']) || $options['purge'] === true) {
             $emitter->attach(
                 new PurgeSubscriber($options['storage'])
             );
+        }
     }
 
     /**
-     * @param RequestInterface $request
+     * @param  RequestInterface $request
      * @return bool
      */
-    private function canCacheRequest(RequestInterface $request) {
+    private function canCacheRequest(RequestInterface $request)
+    {
         return !$request->getConfig()->get('cache.disable')
         && Utils::canCacheRequest($request);
     }
@@ -102,16 +108,19 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      * @param BeforeEvent $event
      */
-    public function onBefore(BeforeEvent $event) {
+    public function onBefore(BeforeEvent $event)
+    {
         $request = $event->getRequest();
 
         if (!$this->canCacheRequest($request)) {
             $this->cacheMiss($request);
+
             return;
         }
 
         if (!$response = $this->storage->fetch($request)) {
             $this->cacheMiss($request);
+
             return;
         }
         // FIXME: Check if it really prevents the http call
@@ -129,7 +138,6 @@ class CacheSubscriber implements SubscriberInterface {
             $valid = $this->validate($request, $response);
         }
 
-
         // Validate that the response satisfies the request
         if ($valid) {
             $request->getConfig()->set('cache_lookup', 'HIT');
@@ -143,7 +151,8 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      * @param CompleteEvent $event
      */
-    public function onComplete(CompleteEvent $event) {
+    public function onComplete(CompleteEvent $event)
+    {
         $request = $event->getRequest();
         $response = $event->getResponse();
 
@@ -161,7 +170,8 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      * @param ErrorEvent $event
      */
-    public function onError(ErrorEvent $event) {
+    public function onError(ErrorEvent $event)
+    {
         $request = $event->getRequest();
 
         if (!self::canCacheRequest($request)) {
@@ -180,11 +190,12 @@ class CacheSubscriber implements SubscriberInterface {
     }
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
+     * @param  RequestInterface  $request
+     * @param  ResponseInterface $response
      * @return bool
      */
-    private function validateFailed(RequestInterface $request, ResponseInterface $response) {
+    private function validateFailed(RequestInterface $request, ResponseInterface $response)
+    {
         $req = Utils::getDirective($request, 'stale-if-error');
         $res = Utils::getDirective($response, 'stale-if-error');
 
@@ -207,32 +218,36 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      * @param RequestInterface $request
      */
-    private function cacheMiss(RequestInterface $request) {
+    private function cacheMiss(RequestInterface $request)
+    {
         $request->getConfig()->set('cache_lookup', 'MISS');
     }
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
+     * @param  RequestInterface  $request
+     * @param  ResponseInterface $response
      * @return bool
      */
-    private function validate(RequestInterface $request, ResponseInterface $response) {
+    private function validate(RequestInterface $request, ResponseInterface $response)
+    {
         if (Utils::getDirective($response, 'must-revalidate')) {
             return true;
         }
+
         return Utils::isResponseValid($request, $response);
     }
 
     /**
-     * @param RequestInterface $request
+     * @param RequestInterface  $request
      * @param ResponseInterface $response
      */
-    private function addResponseHeaders(RequestInterface $request, ResponseInterface $response) {
+    private function addResponseHeaders(RequestInterface $request, ResponseInterface $response)
+    {
         $params = $request->getConfig();
-        $lookup = $params['cache_lookup'] . ' from GuzzleCache';
+        $lookup = $params['cache_lookup'].' from GuzzleCache';
         $response->addHeader('X-Cache-Lookup', $lookup);
 
-        switch($params['cache_hit']){
+        switch ($params['cache_hit']) {
             case true:
                 $response->addHeader('X-Cache', 'HIT from GuzzleCache');
                 break;
@@ -248,7 +263,7 @@ class CacheSubscriber implements SubscriberInterface {
             $response->addHeader(
                 'Warning',
                 sprintf(
-                    '%d GuzzleCache/' . ClientInterface::VERSION . ' "%s"',
+                    '%d GuzzleCache/'.ClientInterface::VERSION.' "%s"',
                     110,
                     'Response is stale'
                 )
@@ -259,14 +274,16 @@ class CacheSubscriber implements SubscriberInterface {
     /**
      * @return mixed
      */
-    public function getCacheType() {
+    public function getCacheType()
+    {
         return $this->cacheType;
     }
 
     /**
      * @param mixed $cacheType
      */
-    public function setCacheType($cacheType) {
+    public function setCacheType($cacheType)
+    {
         $this->cacheType = $cacheType == "server" ? "server" : "client";
     }
 }
