@@ -13,8 +13,8 @@ use GuzzleHttp\Command\Guzzle\GuzzleClient;
  * Class Services
  * @package Kopjra\GuzzleBundle\Services
  */
-class Services {
-
+class Services
+{
     /**
      * Single GuzzleHttp\Command\Guzzle\Description
      * returned by getWebService() in case only one
@@ -39,7 +39,8 @@ class Services {
      */
     private $path;
 
-    function __construct(){
+    public function __construct()
+    {
         $this->webServices = new \stdClass();
     }
 
@@ -49,7 +50,8 @@ class Services {
      *
      * @param array $config
      */
-    public function config(array $config){
+    public function config(array $config)
+    {
         /** @var \AppKernel $kernel */
         $kernel = $GLOBALS['kernel'];
         $path = isset($config["path"]) ? $config["path"] : "Resources/webservices";
@@ -59,35 +61,39 @@ class Services {
     /**
      * Sets the web service to use
      *
-     * @param string|array $webServices The web service or array of
-     *                                  web services
+     * @param  string|array     $webServices The web service or array of
+     *                                       web services
      * @param $type string              Type|Extension of the file to load
      * @param $path string              Optional custom path
-     * @return string|\stdClass         The string to be then converted in a
-     *                                  GuzzleHttp\Command\Guzzle\Description obj
-     *                                  Or an object with the strings
+     * @return string|\stdClass The string to be then converted in a
+     *                                      GuzzleHttp\Command\Guzzle\Description obj
+     *                                      Or an object with the strings
      */
-    public function setWebServices($webServices, $type = "json", $path = null){
+    public function setWebServices($webServices, $type = "json", $path = null)
+    {
         $path = isset($path) ? $path : $this->path;
-        if(is_array($webServices)) {
+        if (is_array($webServices)) {
             foreach ($webServices as $webService) {
                 $this->webServices->{$webService} = $this->getWebService($webService, $type, $path);
             }
+
             return $this->webServices;
         }
         $this->webService = $this->getWebService($webServices, $type, $path);
+
         return $this->webService;
     }
 
     /**
      * Attach the selected web service to the Client
      *
-     * @param Client $client        Http Client
-     * @param array $webservice     The web service as array
-     * @return GuzzleClient         Guzzle web service
-     *                              client implementation
+     * @param  Client       $client     Http Client
+     * @param  array        $webservice The web service as array
+     * @return GuzzleClient Guzzle web service
+     *                                 client implementation
      */
-    public function attachWebService(Client $client, Array $webservice){
+    public function attachWebService(Client $client, Array $webservice)
+    {
         return new GuzzleClient($client, new Description($webservice));
     }
 
@@ -97,12 +103,13 @@ class Services {
      * @param $webServices string           Name of the Web Service to load
      * @param $type string                  Type|Extension of the file to load
      * @param $path string                  Optional custom path
-     * @return string                       The string to be then converted in a
-     *                                      GuzzleHttp\Command\Guzzle\Description obj
-     * @throws \InvalidArgumentException    The $type must be implemented in the switch
+     * @return string                    The string to be then converted in a
+     *                                   GuzzleHttp\Command\Guzzle\Description obj
+     * @throws \InvalidArgumentException The $type must be implemented in the switch
      */
-    private function getWebService($webServices, $type, $path){
-        switch($type) {
+    private function getWebService($webServices, $type, $path)
+    {
+        switch ($type) {
             // TODO: Implement yaml?
             case "xml":
                 return json_decode(

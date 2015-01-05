@@ -42,7 +42,7 @@ class GuzzleExtension extends Twig_Extension
                 $value = (string) $value;
 
                 if (!filter_var($value, FILTER_VALIDATE_URL)) {
-                    return null;
+                    return;
                 }
 
                 return $this->client
@@ -88,7 +88,7 @@ class GuzzleExtension extends Twig_Extension
                 $value = (string) $value;
 
                 if (!filter_var($value, FILTER_VALIDATE_URL)) {
-                    return null;
+                    return;
                 }
 
                 return $this->client

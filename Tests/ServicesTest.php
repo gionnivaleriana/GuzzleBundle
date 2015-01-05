@@ -9,9 +9,10 @@ namespace Kopjra\GuzzleBundle\Tests;
 use GuzzleHttp\Client;
 use Kopjra\GuzzleBundle\Services\Services;
 
-class ServicesTest extends \PHPUnit_Framework_TestCase {
-
-    public function testAttachService() {
+class ServicesTest extends \PHPUnit_Framework_TestCase
+{
+    public function testAttachService()
+    {
         $service = [
             'baseUrl' => 'http://httpbin.org/',
             'operations' => [
@@ -22,23 +23,23 @@ class ServicesTest extends \PHPUnit_Framework_TestCase {
                     'parameters' => [
                         'bar' => [
                             'type' => 'string',
-                            'location' => 'uri'
+                            'location' => 'uri',
                         ],
                         'baz' => [
                             'type' => 'string',
-                            'location' => 'query'
-                        ]
-                    ]
-                ]
+                            'location' => 'query',
+                        ],
+                    ],
+                ],
             ],
             'models' => [
                 'getResponse' => [
                     'type' => 'object',
                     'additionalProperties' => [
-                        'location' => 'json'
-                    ]
-                ]
-            ]
+                        'location' => 'json',
+                    ],
+                ],
+            ],
         ];
         $client = new Client();
         $services = new Services();
@@ -51,11 +52,10 @@ class ServicesTest extends \PHPUnit_Framework_TestCase {
         // GuzzleHttp\Command than $cliens->foo() should not throw InvalidArgumentException
         try {
             $client->foo();
-        }
-        catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->fail();
         }
-        $this->assertTrue(TRUE);
+        $this->assertTrue(true);
 
         return $client;
     }
