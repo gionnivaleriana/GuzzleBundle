@@ -60,18 +60,17 @@ $client = $this->get("guzzle");
 /** @var \Kopjra\GuzzleBundle\OAuth\OAuthSubscriber $oauth */
 $oauth = $this->get("guzzle_oauth");
 
-$oauth->config([
-    'consumer_key'    => '...',
-    'consumer_secret' => '...',
-    'token'           => '...',
-    'token_secret'    => '...'
-]);
-
-$client->getEmitter()->attach($oauth);
+$client->getEmitter()->attach(
+        $oauth->config([
+            'consumer_key'    => 'key',
+            'consumer_secret' => 'secret',
+            'signature_method' => $oauth::SIGNATURE_METHOD_HMAC
+        ])
+    );
 
 /** @var \GuzzleHttp\Message\ResponseInterface $response */
 $response = $client->get(
-    'https://api.twitter.com/1.1/statuses/home_timeline.json', 
+    'http://oauthbin.com/v1/request-token', 
     ['auth' => 'oauth']
 );
 ```

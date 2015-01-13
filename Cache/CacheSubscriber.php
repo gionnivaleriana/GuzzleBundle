@@ -64,7 +64,7 @@ class CacheSubscriber implements SubscriberInterface {
 
     /**
      * @param HasEmitterInterface $client
-     * @param null $options
+     * @param array|null $options
      */
     public function attach(HasEmitterInterface $client, $options = null) {
         if (!isset($options['storage'])) {

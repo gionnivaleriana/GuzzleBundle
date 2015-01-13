@@ -30,6 +30,9 @@ class RetrySubscriber implements SubscriberInterface {
     /** @var int */
     private $maxRetries;
 
+    /**
+     * @param array $config
+     */
     public function config(array $config) {
         if (!isset($config['filter'])) {
             throw new \InvalidArgumentException('A "filter" is required');
@@ -44,6 +47,10 @@ class RetrySubscriber implements SubscriberInterface {
             : 5;
     }
 
+    /**
+     * @param $retries
+     * @return int
+     */
     public static function exponentialDelay($retries) {
         return (int) pow(2, $retries - 1);
     }
@@ -58,6 +65,9 @@ class RetrySubscriber implements SubscriberInterface {
         ];
     }
 
+    /**
+     * @param AbstractRetryableEvent $event
+     */
     public function onComplete(AbstractRetryableEvent $event) {
         $request = $event->getRequest();
         $config = $request->getConfig();
@@ -107,7 +117,7 @@ class RetrySubscriber implements SubscriberInterface {
     public static function createStatusFilter(array $failureStatuses = [500, 503]) {
         $failureStatuses = array_fill_keys($failureStatuses, true);
 
-        return function ($retries, AbstractRetryableEvent $event) use ($failureStatuses) {
+        return function ($retries, $event) use ($failureStatuses) {
             if (!($response = $event->getResponse())) return false;
             return isset($failureStatuses[$response->getStatusCode()]);
         };

@@ -1,17 +1,20 @@
 <?php
-/**
- * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 31/12/14
- */
 
 namespace Kopjra\GuzzleBundle\Tests;
 
 use GuzzleHttp\Client;
 use Kopjra\GuzzleBundle\Services\Services;
 
+/**
+ * @author Joy Lazari <joy.lazari@gmail.com>
+ * @date 31/12/14
+ *
+ * Class ServicesTest
+ * @package Kopjra\GuzzleBundle\Tests
+ */
 class ServicesTest extends \PHPUnit_Framework_TestCase {
 
-    public function testAttachService() {
+    function testAttachService() {
         $service = [
             'baseUrl' => 'http://httpbin.org/',
             'operations' => [
@@ -55,8 +58,7 @@ class ServicesTest extends \PHPUnit_Framework_TestCase {
         catch (\InvalidArgumentException $e) {
             $this->fail();
         }
-        $this->assertTrue(TRUE);
-
-        return $client;
+        $this->assertTrue(true);
     }
+
 }

@@ -41,6 +41,9 @@ class Services {
 
     function __construct(){
         $this->webServices = new \stdClass();
+        /** @var \AppKernel $kernel */
+        $kernel = $GLOBALS['kernel'];
+        $this->path = $kernel->getRootDir()."/Resources/webservices";
     }
 
     /**
@@ -50,10 +53,7 @@ class Services {
      * @param array $config
      */
     public function config(array $config){
-        /** @var \AppKernel $kernel */
-        $kernel = $GLOBALS['kernel'];
-        $path = isset($config["path"]) ? $config["path"] : "Resources/webservices";
-        $this->path = $kernel->getRootDir()."/".$path;
+        $this->path = isset($config["path"]) ? $config["path"] : $this->path;
     }
 
     /**
