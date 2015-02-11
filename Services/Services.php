@@ -41,6 +41,7 @@ class Services {
 
     function __construct(){
         $this->webServices = new \stdClass();
+        // TODO: Implementare KPN Gaufrette per la gestione dei file su filesystem
         /** @var \AppKernel $kernel */
         $kernel = $GLOBALS['kernel'];
         $this->path = $kernel->getRootDir()."/Resources/webservices";

@@ -12,9 +12,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
  */
 class AppKernel extends TestKernel {
     public function configure() {
-        $this->requireBundleSets([
-            'default',
-        ]);
+        $this->requireBundleSets( [ 'default' ] );
 
         $this->addBundles([
             new \Kopjra\GuzzleBundle\KopjraGuzzleBundle(),

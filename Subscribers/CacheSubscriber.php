@@ -1,6 +1,6 @@
 <?php
 
-namespace Kopjra\GuzzleBundle\Cache;
+namespace Kopjra\GuzzleBundle\Subscribers;
 use Doctrine\Common\Cache\ArrayCache;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\BeforeEvent;

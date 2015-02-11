@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        colors="true"
-        bootstrap="../../../vendor/symfony-cmf/testing/bootstrap/bootstrap.php"
-        >
+<phpunit colors="true" bootstrap="./vendor/autoload.php">
 
     <testsuites>
         <testsuite name="GuzzleBundle Test Suite">
@@ -11,8 +8,8 @@
     </testsuites>
 
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>.</directory>
+        <whitelist>
+            <directory>./</directory>
             <exclude>
                 <directory>Resources/</directory>
                 <directory>Tests/</directory>
@@ -22,7 +19,7 @@
     </filter>
 
     <php>
-        <server name="KERNEL_DIR" value="Tests/Resources/app" />
+        <server name="KERNEL_DIR" value="Tests/Resources/app"/>
     </php>
 
 </phpunit>

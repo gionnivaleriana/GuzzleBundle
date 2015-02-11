@@ -1,6 +1,6 @@
 <?php
 
-namespace Kopjra\GuzzleBundle\Retry;
+namespace Kopjra\GuzzleBundle\Subscribers;
 
 use GuzzleHttp\Event\ErrorEvent;
 use GuzzleHttp\Event\RequestEvents;

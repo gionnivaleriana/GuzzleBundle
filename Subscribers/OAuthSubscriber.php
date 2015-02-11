@@ -1,6 +1,6 @@
 <?php
 
-namespace Kopjra\GuzzleBundle\OAuth;
+namespace Kopjra\GuzzleBundle\Subscribers;
 
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 

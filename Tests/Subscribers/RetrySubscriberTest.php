@@ -1,12 +1,12 @@
 <?php
 
-namespace Kopjra\GuzzleBundle\Tests;
+namespace Kopjra\GuzzleBundle\Tests\Subscribers;
 
 use GuzzleHttp\Message\Request;
 use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Message\ResponseInterface;
-use Kopjra\GuzzleBundle\Retry\RetrySubscriber;
+use Kopjra\GuzzleBundle\Subscribers\RetrySubscriber;
 
 /**
  * @author Joy Lazari <joy.lazari@gmail.com>

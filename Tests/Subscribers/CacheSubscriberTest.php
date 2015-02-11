@@ -1,8 +1,9 @@
 <?php
 
-namespace Kopjra\GuzzleBundle\Tests;
+namespace Kopjra\GuzzleBundle\Tests\Subscribers;
+
 use GuzzleHttp\Client;
-use Kopjra\GuzzleBundle\Cache\CacheSubscriber;
+use Kopjra\GuzzleBundle\Subscribers\CacheSubscriber;
 
 /**
  * @author Joy Lazari <joy.lazari@gmail.com>
