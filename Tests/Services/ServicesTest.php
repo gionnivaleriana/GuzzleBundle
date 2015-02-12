@@ -18,13 +18,16 @@ class ServicesTest extends \PHPUnit_Framework_TestCase {
      */
     protected $Services;
 
-    public function setUp() {
-        //$this->Services = new Services();
+    public function testServices() {
         $this->markTestSkipped( 'Kopjra\GuzzleBundle\Services\Services must be fixed first' );
     }
 
-    public function testServices() {
-        $this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $this->Services );
-    }
+    //public function setUp() {
+    //    $this->Services = new Services();
+    //}
+
+    //public function testServices() {
+    //    $this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $this->Services );
+    //}
 
 }

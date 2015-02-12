@@ -1,0 +1,57 @@
+framework:
+  csrf_protection:
+    enabled: true
+  default_locale: en
+  form:
+    csrf_protection:
+      field_name: _t
+    enabled: true
+  fragments:
+    enabled: true
+    path: /_f
+  http_method_override: true
+  router:
+    resource: '%kernel.root_dir%/config/routing.yml'
+    strict_requirements: null
+  secret: null
+  session: null
+  templating:
+    engines:
+    - twig
+  translator: null
+  trusted_hosts: null
+  trusted_proxies: null
+  validation:
+    enable_annotations: true
+
+twig:
+  debug: '%kernel.debug%'
+  form:
+    resources:
+    - form_div_layout.html.twig
+  globals:
+    main:
+      id: doctrine_cache.providers.main
+    metrics:
+      id: doctrine_cache.providers.metrics
+  strict_variables: '%kernel.debug%'
+
+kopjra_guzzle:
+  connect_timeout: 15
+  decode_content: gzip
+  headers:
+    Accept-Charset: 'utf-8'
+    Content-Transfer-Encoding: 'binary'
+    User-Agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'
+  timeout: 15
+  verify: '%kernel.root_dir%/Resources/cacert.cer'
+
+services:
+  essence:
+    arguments:
+    - { providers: '%kernel.root_dir%/Resources/essence_providers.php' }
+    calls:
+      - ['set', ['Http', '@guzzle']]
+    class: Essence\Essence
+    factory_class: Essence\Essence
+    factory_method: instance

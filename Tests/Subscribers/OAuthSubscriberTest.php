@@ -26,4 +26,13 @@ class OAuthSubscriberTest extends \PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $this->OAuthSubscriber );
 	}
 
+	public function testConfig() {
+		$oaut = $this->OAuthSubscriber->config( [
+			'consumer_key'     => 'key',
+			'consumer_secret'  => 'secret',
+			'signature_method' => 'HMAC-SHA1'
+		] );
+		$this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $oaut );
+	}
+
 }
