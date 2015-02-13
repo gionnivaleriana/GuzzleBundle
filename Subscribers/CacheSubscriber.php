@@ -7,6 +7,7 @@ use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\HasEmitterInterface;
 use GuzzleHttp\Event\SubscriberInterface;
+use GuzzleHttp\Subscriber\Cache\CacheStorage;
 use GuzzleHttp\Subscriber\Cache\CacheSubscriber as BaseSubscriber;
 
 /**
@@ -31,7 +32,10 @@ class CacheSubscriber implements SubscriberInterface
     private $cache;
 
     /**
-     * [__construct description]
+     * Class constructor.
+     *
+     * @param Cache  $cache Doctrine cache provider.
+     * @param string $type  Can be "server" or "client".
      */
     public function __construct(Cache $cache, $type)
     {
@@ -40,7 +44,7 @@ class CacheSubscriber implements SubscriberInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getEvents()
     {
@@ -111,12 +115,17 @@ class CacheSubscriber implements SubscriberInterface
     }
 
     /**
+     * The client side cache is already provided, this method only replace the storage
+     * system with the one set in the bundle configuration.
+     *
      * @param HasEmitterInterface $client
      * @param array|null          $options
      */
     public function attach(HasEmitterInterface $client, array $options = null)
     {
         if ('client' === $this->type) {
+            $options['storage'] = new CacheStorage($this->cache);
+
             BaseSubscriber::attach($client, $options);
         }
     }
