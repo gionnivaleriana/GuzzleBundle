@@ -21,8 +21,34 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('kopjra_guzzle');
 
         $rootNode
-            ->prototype('variable')
+            ->children()
+                ->variableNode('client')
+                    ->info('Guzzle 5 client configuration (http://docs.guzzlephp.org/en/latest/clients.html)')
+                ->end()
+                ->arrayNode('subscribers')
+                    ->children()
+                        ->append($this->addCacheSubscriberNode())
+                    ->end()
+                ->end()
+            ->end()
         ;
+
+        return $treeBuilder;
+    }
+
+    /**
+     * Add a configuration for the cache subscriber.
+     *
+     * @link https://github.com/guzzle/cache-subscriber
+     *
+     * @return TreeBuilder
+     */
+    private function addCacheSubscriberNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('cache');
+
+        // ...
 
         return $treeBuilder;
     }
