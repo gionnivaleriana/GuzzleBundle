@@ -20,18 +20,8 @@ use stdClass;
 class Services
 {
     /**
-     * Single GuzzleHttp\Command\Guzzle\Description
-     * returned by getWebService() in case only one
-     * webservice is provided
-     *
-     * @var Description The WebService
-     */
-    public $webService;
-
-    /**
      * Object of GuzzleHttp\Command\Guzzle\Description
-     * returned by getWebService() in case multple
-     * web services are provided
+     * returned by getWebService()
      *
      * @var \stdClass Object of WebServices
      */
@@ -51,25 +41,18 @@ class Services
     /**
      * Sets the web service to use
      *
-     * @param  string|array     $webServices The web service or array of
-     *                                       web services
+     * @param array $webServices The web service or array of
+     *                                  web services
      * @param $type string              Type|Extension of the file to load
-     * @return string|\stdClass The string to be then converted in a
-     *                                      GuzzleHttp\Command\Guzzle\Description obj
-     *                                      Or an object with the strings
+     *
+     * @return \stdClass                Object of GuzzleHttp\Command\Guzzle\Description
      */
-    public function setWebServices($webServices, $type = 'json')
-    {
-        if (is_array($webServices)) {
-            foreach ($webServices as $webService) {
-                $this->webServices->{$webService} = $this->getWebService($webService, $type);
-            }
-
-            return $this->webServices;
+    public function setWebServices( array $webServices, $type = "json" ) {
+        foreach ( $webServices as $webService ) {
+            $this->webServices->{$webService} = $this->getWebService( $webService, $type );
         }
-        $this->webService = $this->getWebService($webServices, $type);
 
-        return $this->webService;
+        return $this->webServices;
     }
 
     /**
@@ -115,5 +98,12 @@ class Services
             default:
                 throw new InvalidArgumentException("Type ['$type'] not recognized or not implemented yet.");
         }
+    }
+
+    /**
+     * @param Filesystem $filesystem
+     */
+    public function setFilesystem( Filesystem $filesystem ) {
+        $this->filesystem = $filesystem;
     }
 }

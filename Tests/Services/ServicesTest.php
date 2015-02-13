@@ -29,20 +29,10 @@ class ServicesTest extends PHPUnit_Framework_TestCase
         $kernel->boot();
 
         $container      = $kernel->getContainer();
-        $filesystem     = $container->get('knp_gaufrette.filesystem_map');
-        $this->services = new Services($filesystem);
+        $this->Services = $container->get( 'kopjra.guzzle.services' );
     }
 
-    /**
-     * [testServices description]
-     *
-     * @return [type] [description]
-     */
-    public function testServices()
-    {
-        $this->assertInstanceOf(
-            'Kopjra\\GuzzleBundle\\Services\\Services',
-            $this->services
-        );
+    public function testSetWebServices() {
+        $this->assertTrue( is_object( $this->Services->setWebServices( [ "TestWebservice" ] ) ) );
     }
 }

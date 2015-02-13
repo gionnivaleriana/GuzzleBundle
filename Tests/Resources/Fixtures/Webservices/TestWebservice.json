@@ -1,0 +1,24 @@
+{
+  "baseUrl": "https:\/\/graph.facebook.com",
+  "operations": {
+    "getUser": {
+      "httpMethod": "GET",
+      "uri": "\/{id}",
+      "responseModel": "getResponse",
+      "parameters": {
+        "id": {
+          "type": "string",
+          "location": "uri"
+        }
+      }
+    }
+  },
+  "models": {
+    "getResponse": {
+      "type": "object",
+      "additionalProperties": {
+        "location": "json"
+      }
+    }
+  }
+}
