@@ -2,6 +2,8 @@
 
 namespace Kopjra\GuzzleBundle\Services;
 
+use Gaufrette\Filesystem;
+use Knp\Bundle\GaufretteBundle\FilesystemMap;
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
@@ -34,27 +36,13 @@ class Services {
     public $webServices;
 
     /**
-     * @var string Default path if not setted
-     *             app/Resources/webservices
+     * @var Filesystem
      */
-    private $path;
+    private $filesystem;
 
-    function __construct(){
+    function __construct( FilesystemMap $filesystem ) {
         $this->webServices = new \stdClass();
-        // TODO: Implementare KPN Gaufrette per la gestione dei file su filesystem
-        /** @var \AppKernel $kernel */
-        $kernel = $GLOBALS['kernel'];
-        $this->path = $kernel->getRootDir()."/Resources/webservices";
-    }
-
-    /**
-     * Optional configuration, such as custom path for the remote
-     * web service file location
-     *
-     * @param array $config
-     */
-    public function config(array $config){
-        $this->path = isset($config["path"]) ? $config["path"] : $this->path;
+        $this->filesystem = $filesystem->get( 'webservices' );
     }
 
     /**
@@ -63,20 +51,18 @@ class Services {
      * @param string|array $webServices The web service or array of
      *                                  web services
      * @param $type string              Type|Extension of the file to load
-     * @param $path string              Optional custom path
      * @return string|\stdClass         The string to be then converted in a
      *                                  GuzzleHttp\Command\Guzzle\Description obj
      *                                  Or an object with the strings
      */
-    public function setWebServices($webServices, $type = "json", $path = null){
-        $path = isset($path) ? $path : $this->path;
+    public function setWebServices( $webServices, $type = "json" ) {
         if(is_array($webServices)) {
             foreach ($webServices as $webService) {
-                $this->webServices->{$webService} = $this->getWebService($webService, $type, $path);
+                $this->webServices->{$webService} = $this->getWebService( $webService, $type );
             }
             return $this->webServices;
         }
-        $this->webService = $this->getWebService($webServices, $type, $path);
+        $this->webService = $this->getWebService( $webServices, $type );
         return $this->webService;
     }
 
@@ -97,25 +83,24 @@ class Services {
      *
      * @param $webServices string           Name of the Web Service to load
      * @param $type string                  Type|Extension of the file to load
-     * @param $path string                  Optional custom path
      * @return string                       The string to be then converted in a
      *                                      GuzzleHttp\Command\Guzzle\Description obj
      * @throws \InvalidArgumentException    The $type must be implemented in the switch
      */
-    private function getWebService($webServices, $type, $path){
+    private function getWebService( $webServices, $type ) {
         switch($type) {
             // TODO: Implement yaml?
             case "xml":
                 return json_decode(
                     json_encode((array) simplexml_load_string(
-                            file_get_contents($path."/".$webServices.".xml")
+                        $this->filesystem->read( $webServices . ".xml" )
                         )
                     ),
                     true
                 );
             case "json":
                 return json_decode(
-                    file_get_contents($path."/".$webServices.".json"),
+                    $this->filesystem->read( $webServices . ".json" ),
                     true
                 );
                 break;
