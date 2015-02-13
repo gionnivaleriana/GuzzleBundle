@@ -19,7 +19,7 @@ class EventsCompilerPass implements CompilerPassInterface
         $guzzle = $container->getDefinition('guzzle');
         $emitter = $container->getDefinition('kopjra.guzzle_bundle.event_listener.emitter');
 
-        $subscribers = $container->findTaggedServiceIds('guzzle.event_subscriber');
+        $subscribers = $container->findTaggedServiceIds( 'guzzle.subscriber' );
 
         foreach ($subscribers as $id => $attributes) {
             $emitter->addMethodCall('attach', [

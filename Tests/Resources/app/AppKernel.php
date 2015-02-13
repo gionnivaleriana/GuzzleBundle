@@ -16,6 +16,7 @@ class AppKernel extends Kernel {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
+            new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new \Kopjra\GuzzleBundle\KopjraGuzzleBundle()
         ];
 

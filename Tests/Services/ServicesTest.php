@@ -2,6 +2,7 @@
 
 namespace Kopjra\GuzzleBundle\Tests;
 
+use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
 use Kopjra\GuzzleBundle\Services\Services;
 
 /**
@@ -18,16 +19,16 @@ class ServicesTest extends \PHPUnit_Framework_TestCase {
      */
     protected $Services;
 
-    public function testServices() {
-        $this->markTestSkipped( 'Kopjra\GuzzleBundle\Services\Services must be fixed first' );
+    public function setUp() {
+        $kernel = new AppKernel( 'test', true );
+        $kernel->boot();
+        $container      = $kernel->getContainer();
+        $filesystem     = $container->get( 'knp_gaufrette.filesystem_map' );
+        $this->Services = new Services( $filesystem );
     }
 
-    //public function setUp() {
-    //    $this->Services = new Services();
-    //}
-
-    //public function testServices() {
-    //    $this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $this->Services );
-    //}
+    public function testServices() {
+        $this->assertInstanceOf( '\Kopjra\GuzzleBundle\Services\Services', $this->Services );
+    }
 
 }

@@ -1,3 +1,6 @@
+parameters:
+  kernel.secret: null
+
 framework:
   csrf_protection:
     enabled: true
@@ -47,11 +50,16 @@ kopjra_guzzle:
   verify: '%kernel.root_dir%/Resources/cacert.cer'
 
 services:
-  essence:
-    arguments:
-    - { providers: '%kernel.root_dir%/Resources/essence_providers.php' }
-    calls:
-      - ['set', ['Http', '@guzzle']]
-    class: Essence\Essence
-    factory_class: Essence\Essence
-    factory_method: instance
+    logger:
+        class: Kopjra\GuzzleBundle\Tests\Resources\Fixtures\FileLogger
+        arguments: ["%kernel.cache_dir%"]
+
+knp_gaufrette:
+  adapters:
+    webservices:
+      local:
+        directory: '%kernel.root_dir%/Resources/Webservices'
+
+  filesystems:
+    webservices:
+      adapter: webservices

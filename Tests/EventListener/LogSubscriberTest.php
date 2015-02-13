@@ -2,13 +2,6 @@
 
 namespace Kopjra\GuzzleBundle\Tests\EventListener;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Event\BeforeEvent;
-use GuzzleHttp\Event\CompleteEvent;
-use GuzzleHttp\Event\ErrorEvent;
-use GuzzleHttp\Message\Request;
-use GuzzleHttp\Transaction;
-use Kopjra\GuzzleBundle\EventListener\Emitter;
 use Kopjra\GuzzleBundle\EventListener\LogSubscriber;
 use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
 use Symfony\Component\HttpKernel\Tests\Logger;
@@ -28,6 +21,10 @@ class LogSubscriberTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$this->LogSubscriber = new LogSubscriber( new Logger() );
+		$kernel = new AppKernel( 'dev', true );
+		$kernel->boot();
+		$container = $kernel->getContainer();
+		$container->get( 'guzzle' );
 	}
 
 	public function testGetEvents() {
