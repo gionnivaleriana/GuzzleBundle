@@ -5,7 +5,7 @@
         <parameter key="kopjra_guzzle.log_subscriber">Kopjra\GuzzleBundle\EventListener\LogSubscriber</parameter>
         <parameter key="kopjra_guzzle.oauth_subscriber">Kopjra\GuzzleBundle\Subscribers\OAuthSubscriber</parameter>
         <parameter key="kopjra_guzzle.retry_subscriber">Kopjra\GuzzleBundle\Subscribers\RetrySubscriber</parameter>
-        <parameter key="kopjra_guzzle.services">Kopjra\GuzzleBundle\Services\Services</parameter>
+        <parameter key="kopjra_guzzle.servicesmanager">Kopjra\GuzzleBundle\Manager\ServicesManager</parameter>
     </parameters>
     <services>
         <service class="GuzzleHttp\Client" id="guzzle">
@@ -29,7 +29,7 @@
         <service class="%kopjra_guzzle.retry_subscriber%" id="kopjra.guzzle.retry">
             <tag name="guzzle.subscriber"/>
         </service>
-        <service class="%kopjra_guzzle.services%" id="kopjra.guzzle.services">
+        <service class="%kopjra_guzzle.servicesmanager%" id="kopjra.guzzle.servicesmanager">
             <argument id="knp_gaufrette.filesystem_map" type="service"/>
         </service>
     </services>

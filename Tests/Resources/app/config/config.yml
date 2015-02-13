@@ -28,7 +28,7 @@ knp_gaufrette:
   adapters:
     webservices:
       local:
-        directory: '%kernel.root_dir%/Resources/Webservices'
+        directory: '%kernel.root_dir%/Webservices'
   filesystems:
     webservices:
       adapter: webservices

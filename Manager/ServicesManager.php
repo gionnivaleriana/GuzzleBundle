@@ -1,6 +1,6 @@
 <?php
 
-namespace Kopjra\GuzzleBundle\Services;
+namespace Kopjra\GuzzleBundle\Manager;
 
 use Gaufrette\Filesystem;
 use GuzzleHttp\Client;
@@ -17,7 +17,7 @@ use stdClass;
  *
  * @package Kopjra\GuzzleBundle\Services
  */
-class Services
+class ServicesManager
 {
     /**
      * Object of GuzzleHttp\Command\Guzzle\Description
@@ -47,9 +47,10 @@ class Services
      *
      * @return \stdClass                Object of GuzzleHttp\Command\Guzzle\Description
      */
-    public function setWebServices( array $webServices, $type = "json" ) {
+    public function set(array $webServices, $type = "json")
+    {
         foreach ( $webServices as $webService ) {
-            $this->webServices->{$webService} = $this->getWebService( $webService, $type );
+            $this->webServices->{$webService} = $this->get($webService, $type);
         }
 
         return $this->webServices;
@@ -63,7 +64,7 @@ class Services
      * @return GuzzleClient Guzzle web service
      *                                 client implementation
      */
-    public function attachWebService(Client $client, Array $webservice)
+    public function attach(Client $client, Array $webservice)
     {
         return new GuzzleClient($client, new Description($webservice));
     }
@@ -77,7 +78,7 @@ class Services
      *                                   GuzzleHttp\Command\Guzzle\Description obj
      * @throws \InvalidArgumentException The $type must be implemented in the switch
      */
-    private function getWebService($webServices, $type)
+    private function get($webServices, $type)
     {
         switch ($type) {
             case 'xml':
