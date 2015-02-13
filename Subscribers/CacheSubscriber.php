@@ -36,15 +36,16 @@ class CacheSubscriber implements SubscriberInterface
      *
      * @var string
      */
-    private $cacheType;
+    private $type;
 
     /**
      * [__construct description]
      */
-    public function __construct(Cache $cache)
+    public function __construct(Cache $cache, $type)
     {
         $this->storage = new CacheStorage($cache);
         $this->canCache = ['self', 'canCacheRequest'];
+        $this->type = $type;
     }
 
     /**
@@ -125,7 +126,7 @@ class CacheSubscriber implements SubscriberInterface
         // If server type cache is setted intercepts the http request,
         // sets the response as valid
         // and outputs the cache copy
-        if ($this->cacheType == "server") {
+        if ($this->type == "server") {
             $event->intercept($response);
             $valid = true;
         } else {
@@ -266,21 +267,5 @@ class CacheSubscriber implements SubscriberInterface
                 )
             );
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCacheType()
-    {
-        return $this->cacheType;
-    }
-
-    /**
-     * @param mixed $cacheType
-     */
-    public function setCacheType($cacheType)
-    {
-        $this->cacheType = $cacheType == "server" ? "server" : "client";
     }
 }

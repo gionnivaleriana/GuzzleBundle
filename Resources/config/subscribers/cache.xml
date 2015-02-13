@@ -3,10 +3,12 @@
     <parameters>
         <parameter key="kopjra_guzzle.subscribers.cache.class">Kopjra\GuzzleBundle\Subscribers\CacheSubscriber</parameter>
         <parameter key="kopjra_guzzle.subscribers.cache.provider">kopjra_guzzle.cache_subscriber.default_provider</argument>
+        <parameter key="kopjra_guzzle.subscribers.cache.type">client</argument>
     </parameters>
     <services>
         <service class="%kopjra_guzzle.subscribers.cache.class%" id="kopjra_guzzle.subscribers.cache" public="false">
             <argument id="%kopjra_guzzle.subscribers.cache.provider%" type="service" />
+            <argument>%kopjra_guzzle.subscribers.cache.type%</argument>
             <tag name="guzzle.subscriber"/>
         </service>
         <service class="Doctrine\Common\Cache\ArrayCache" id="kopjra_guzzle.subscribers.cache.default_provider">

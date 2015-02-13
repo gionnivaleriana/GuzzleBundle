@@ -60,6 +60,11 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                     ->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')
                 ->end()
+                ->enumNode('type')
+                    ->cannotBeEmpty()
+                    ->defaultValue('%kopjra_guzzle.subscribers.cache.type%')
+                    ->values(['client', 'server'])
+                ->end()
             ->end()
         ;
 
