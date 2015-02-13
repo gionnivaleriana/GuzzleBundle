@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('subscribers')
                     ->children()
-                        //->append($this->addCacheSubscriberNode())
+                        ->append($this->addCacheSubscriberNode())
                         ->append($this->addOAuthSubscriberNode())
                     ->end()
                 ->end()
@@ -80,20 +80,24 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
-            ->treatFalseLike(array('enabled' => false))
-            ->treatNullLike(array('enabled' => false))
+            ->treatFalseLike(['enabled' => false])
+            ->treatNullLike(['enabled' => false])
             ->children()
                 ->booleanNode('enabled')
-                    ->defaultValue(false)
+                    ->defaultFalse()
                 ->end()
                 ->scalarNode('provider')
                     ->cannotBeEmpty()
                     ->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')
-                ->isRequired()
+                ->end()
+                ->enumNode('type')
+                    ->cannotBeEmpty()
+                    ->defaultValue('%kopjra_guzzle.subscribers.cache.type%')
+                    ->values(['client', 'server'])
                 ->end()
             ->end()
         ;
 
-        return $treeBuilder;
+        return $rootNode;
     }
 }
