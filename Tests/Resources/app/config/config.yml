@@ -1,6 +1,3 @@
-parameters:
-  kernel.secret: null
-
 framework:
   csrf_protection:
     enabled: true
@@ -27,17 +24,14 @@ framework:
   validation:
     enable_annotations: true
 
-twig:
-  debug: '%kernel.debug%'
-  form:
-    resources:
-    - form_div_layout.html.twig
-  globals:
-    main:
-      id: doctrine_cache.providers.main
-    metrics:
-      id: doctrine_cache.providers.metrics
-  strict_variables: '%kernel.debug%'
+knp_gaufrette:
+  adapters:
+    webservices:
+      local:
+        directory: '%kernel.root_dir%/Resources/Webservices'
+  filesystems:
+    webservices:
+      adapter: webservices
 
 kopjra_guzzle:
   connect_timeout: 15
@@ -49,17 +43,23 @@ kopjra_guzzle:
   timeout: 15
   verify: '%kernel.root_dir%/Resources/cacert.cer'
 
+parameters:
+  kernel.secret: null
+
 services:
-    logger:
-        class: Kopjra\GuzzleBundle\Tests\Resources\Fixtures\FileLogger
-        arguments: ["%kernel.cache_dir%"]
+  logger:
+    arguments:
+    - '%kernel.cache_dir%'
+    class: Kopjra\GuzzleBundle\Tests\Resources\Fixtures\FileLogger
 
-knp_gaufrette:
-  adapters:
-    webservices:
-      local:
-        directory: '%kernel.root_dir%/Resources/Webservices'
-
-  filesystems:
-    webservices:
-      adapter: webservices
+twig:
+  debug: '%kernel.debug%'
+  form:
+    resources:
+    - form_div_layout.html.twig
+  globals:
+    main:
+      id: doctrine_cache.providers.main
+    metrics:
+      id: doctrine_cache.providers.metrics
+  strict_variables: '%kernel.debug%'

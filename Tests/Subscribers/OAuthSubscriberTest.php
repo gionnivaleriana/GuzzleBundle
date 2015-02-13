@@ -3,36 +3,59 @@
 namespace Kopjra\GuzzleBundle\Tests\Subscribers;
 
 use Kopjra\GuzzleBundle\Subscribers\OAuthSubscriber;
+use PHPUnit_Framework_TestCase;
 
 /**
- * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 03/01/15
+ * Class OAuthSubscriberTest.
  *
- * Class OAuthSubscriberTest
+ * @author Joy Lazari <joy.lazari@gmail.com>
+ *
  * @package Kopjra\GuzzleBundle\Tests
  */
-class OAuthSubscriberTest extends \PHPUnit_Framework_TestCase {
+class OAuthSubscriberTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @var OAuthSubscriber
+     */
+    protected $subscriber;
 
-	/**
-	 * @var OAuthSubscriber
-	 */
-	protected $OAuthSubscriber;
+    /**
+     * [setUp description]
+     */
+    public function setUp()
+    {
+        $this->subscriber = new OAuthSubscriber();
+    }
 
-	public function setUp() {
-		$this->OAuthSubscriber = new OAuthSubscriber();
-	}
+    /**
+     * [testOAuthSubscriber description]
+     *
+     * @return [type] [description]
+     */
+    public function testOAuthSubscriber()
+    {
+        $this->assertInstanceOf(
+            'GuzzleHttp\\Event\\SubscriberInterface',
+            $this->subscriber
+        );
+    }
 
-	public function testOAuthSubscriber() {
-		$this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $this->OAuthSubscriber );
-	}
+    /**
+     * [testConfig description]
+     *
+     * @return [type] [description]
+     */
+    public function testConfig()
+    {
+        $oauth = $this->subscriber->config([
+            'consumer_key'     => 'key',
+            'consumer_secret'  => 'secret',
+            'signature_method' => 'HMAC-SHA1',
+        ]);
 
-	public function testConfig() {
-		$oaut = $this->OAuthSubscriber->config( [
-			'consumer_key'     => 'key',
-			'consumer_secret'  => 'secret',
-			'signature_method' => 'HMAC-SHA1'
-		] );
-		$this->assertInstanceOf( '\GuzzleHttp\Event\SubscriberInterface', $oaut );
-	}
-
+        $this->assertInstanceOf(
+            'GuzzleHttp\\Event\\SubscriberInterface',
+            $oauth
+        );
+    }
 }

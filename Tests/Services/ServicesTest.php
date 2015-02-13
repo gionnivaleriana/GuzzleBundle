@@ -2,33 +2,47 @@
 
 namespace Kopjra\GuzzleBundle\Tests;
 
-use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
 use Kopjra\GuzzleBundle\Services\Services;
+use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
+use PHPUnit_Framework_TestCase;
 
 /**
- * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 31/12/14
+ * Class ServicesTest.
  *
- * Class ServicesTest
+ * @author Joy Lazari <joy.lazari@gmail.com>
+ *
  * @package Kopjra\GuzzleBundle\Tests
  */
-class ServicesTest extends \PHPUnit_Framework_TestCase {
-
+class ServicesTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var Services
      */
-    protected $Services;
+    protected $services;
 
-    public function setUp() {
-        $kernel = new AppKernel( 'test', true );
+    /**
+     * [setUp description]
+     */
+    public function setUp()
+    {
+        $kernel = new AppKernel('test', true);
         $kernel->boot();
+
         $container      = $kernel->getContainer();
-        $filesystem     = $container->get( 'knp_gaufrette.filesystem_map' );
-        $this->Services = new Services( $filesystem );
+        $filesystem     = $container->get('knp_gaufrette.filesystem_map');
+        $this->services = new Services($filesystem);
     }
 
-    public function testServices() {
-        $this->assertInstanceOf( '\Kopjra\GuzzleBundle\Services\Services', $this->Services );
+    /**
+     * [testServices description]
+     *
+     * @return [type] [description]
+     */
+    public function testServices()
+    {
+        $this->assertInstanceOf(
+            'Kopjra\\GuzzleBundle\\Services\\Services',
+            $this->services
+        );
     }
-
 }

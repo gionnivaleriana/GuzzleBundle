@@ -7,31 +7,40 @@ use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
 use Symfony\Component\HttpKernel\Tests\Logger;
 
 /**
- * Class LogSubscriberTest
+ * Class LogSubscriberTest.
+ *
  * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 12/02/15
+ *
  * @package Kopjra\GuzzleBundle\Tests\EventListener
  */
-class LogSubscriberTest extends \PHPUnit_Framework_TestCase {
+class LogSubscriberTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * @var LogSubscriber
+     */
+    protected $subscriber;
 
-	/**
-	 * @var LogSubscriber
-	 */
-	protected $LogSubscriber;
+    /**
+     * [setUp description]
+     */
+    public function setUp()
+    {
+        $this->subscriber = new LogSubscriber(new Logger());
+        $kernel = new AppKernel('dev', true);
+        $kernel->boot();
+    }
 
-	public function setUp() {
-		$this->LogSubscriber = new LogSubscriber( new Logger() );
-		$kernel = new AppKernel( 'dev', true );
-		$kernel->boot();
-		$container = $kernel->getContainer();
-		$container->get( 'guzzle' );
-	}
+    /**
+     * [testGetEvents description]
+     *
+     * @return [type] [description]
+     */
+    public function testGetEvents()
+    {
+        $eventsArray = $this->subscriber->getEvents();
 
-	public function testGetEvents() {
-		$eventsArray = $this->LogSubscriber->getEvents();
-		$this->assertArrayHasKey( 'before', $eventsArray );
-		$this->assertArrayHasKey( 'complete', $eventsArray );
-		$this->assertArrayHasKey( 'error', $eventsArray );
-	}
-
+        $this->assertArrayHasKey('before', $eventsArray);
+        $this->assertArrayHasKey('complete', $eventsArray);
+        $this->assertArrayHasKey('error', $eventsArray);
+    }
 }

@@ -49,7 +49,8 @@ class LogSubscriber implements SubscriberInterface
      * Log before the request
      *
      * Example: [before] GET http://www.example.com/path
-     * @param BeforeEvent $event
+     *
+     * @param BeforeEvent      $event
      * @param $name
      * @param EmitterInterface $emitter
      */
@@ -72,7 +73,8 @@ class LogSubscriber implements SubscriberInterface
      * Log after a request is completed
      *
      * Example: [complete] 200 http://www.example.com/path
-     * @param CompleteEvent $event
+     *
+     * @param CompleteEvent    $event
      * @param $name
      * @param EmitterInterface $emitter
      */
@@ -96,7 +98,8 @@ class LogSubscriber implements SubscriberInterface
      *
      * Example: [warning] 404 (Page Not Found) http://www.example.com/path
      * Example: [error] 500 (Server Error) http://www.example.com/path
-     * @param ErrorEvent $event
+     *
+     * @param ErrorEvent       $event
      * @param $name
      * @param EmitterInterface $emitter
      */

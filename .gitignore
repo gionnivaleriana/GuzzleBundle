@@ -1,4 +1,5 @@
-.idea
-vendor
-Tests/Resources/app/cache
-Tests/Resources/app/logs
+/.idea
+/composer.lock
+/Tests/Resources/app/cache
+/Tests/Resources/app/logs
+/vendor
