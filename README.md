@@ -183,6 +183,12 @@ Content of the file `app/Resources/webservice/foo.json`
   }
 }
 ```
+
+Readings
+--------
+
+ * [Configuration Reference](https://github.com/gionnivaleriana/GuzzleBundle/tree/master/Resources/doc/configuration-reference.rst)
+
 ----
 
 Authors
