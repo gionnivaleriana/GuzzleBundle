@@ -26,8 +26,9 @@ class Configuration implements ConfigurationInterface
                     ->info('Guzzle 5 client configuration (http://docs.guzzlephp.org/en/latest/clients.html)')
                 ->end()
                 ->arrayNode('subscribers')
-                    ->children()//->append($this->addCacheSubscriberNode())
-            ->append($this->addOAuthSubscriberNode())
+                    ->children()
+                        //->append($this->addCacheSubscriberNode())
+                        ->append($this->addOAuthSubscriberNode())
                     ->end()
                 ->end()
             ->end()
@@ -38,15 +39,29 @@ class Configuration implements ConfigurationInterface
 
     /**
      * Add a configuration for the oauth subscriber.
+     *
      * @link https://github.com/guzzle/oauth-subscriber
+     *
      * @return TreeBuilder
      */
     private function addOAuthSubscriberNode()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('oauth');
+        $rootNode = $treeBuilder->root('oauth');
 
-        $rootNode->children()->variableNode('consumer_key')->defaultNull()->end()->variableNode('consumer_secret')->defaultNull()->end()->variableNode('signature_method')->defaultValue('HMAC-SHA1')->end()->end();
+        $rootNode
+            ->children()
+                ->variableNode('consumer_key')
+                    ->defaultNull()
+                ->end()
+                ->variableNode('consumer_secret')
+                    ->defaultNull()
+                ->end()
+                ->variableNode('signature_method')
+                    ->defaultValue('HMAC-SHA1')
+                ->end()
+            ->end()
+        ;
 
         return $rootNode;
     }
@@ -63,7 +78,21 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cache');
 
-        $rootNode->addDefaultsIfNotSet()->treatFalseLike(array('enabled' => false))->treatNullLike(array('enabled' => false))->children()->booleanNode('enabled')->defaultValue(false)->end()->scalarNode('provider')->cannotBeEmpty()->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')->isRequired()->end()->end();
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike(array('enabled' => false))
+            ->treatNullLike(array('enabled' => false))
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultValue(false)
+                ->end()
+                ->scalarNode('provider')
+                    ->cannotBeEmpty()
+                    ->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')
+                ->isRequired()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }
