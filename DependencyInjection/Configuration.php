@@ -50,16 +50,15 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
-            ->treatFalseLike(array('enabled' => false))
-            ->treatNullLike(array('enabled' => false))
+            ->treatFalseLike(['enabled' => false])
+            ->treatNullLike(['enabled' => false])
             ->children()
                 ->booleanNode('enabled')
-                    ->defaultValue(false)
+                    ->defaultFalse()
                 ->end()
                 ->scalarNode('provider')
                     ->cannotBeEmpty()
                     ->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')
-                    ->isRequired()
                 ->end()
             ->end()
         ;
