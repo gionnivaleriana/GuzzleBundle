@@ -2,7 +2,7 @@
 
 namespace Kopjra\GuzzleBundle\Subscribers;
 
-use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Cache;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
@@ -41,9 +41,9 @@ class CacheSubscriber implements SubscriberInterface
     /**
      * [__construct description]
      */
-    public function __construct()
+    public function __construct(Cache $cache)
     {
-        $this->storage = new CacheStorage(new ArrayCache());
+        $this->storage = new CacheStorage($cache);
         $this->canCache = ['self', 'canCacheRequest'];
     }
 
@@ -71,10 +71,6 @@ class CacheSubscriber implements SubscriberInterface
      */
     public function attach(HasEmitterInterface $client, array $options = null)
     {
-        if (!isset($options['storage'])) {
-            $options['storage'] = new CacheStorage(new ArrayCache());
-        }
-
         if (!isset($options['can_cache'])) {
             $options['can_cache'] = ['self', 'canCacheRequest'];
         }

@@ -48,7 +48,21 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cache');
 
-        // ...
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike(array('enabled' => false))
+            ->treatNullLike(array('enabled' => false))
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultValue(false)
+                ->end()
+                ->scalarNode('provider')
+                    ->cannotBeEmpty()
+                    ->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')
+                    ->isRequired()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

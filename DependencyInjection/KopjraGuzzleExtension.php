@@ -20,12 +20,17 @@ class KopjraGuzzleExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.xml');
+
+        // Loading cache subscriber services and parameters
+        if ($config['subscribers']['cache']['enabled']) {
+            $loader->load('subscribers/cache.xml');
+        }
     }
 }
