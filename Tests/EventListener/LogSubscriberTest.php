@@ -4,6 +4,7 @@ namespace Kopjra\GuzzleBundle\Tests\EventListener;
 
 use Kopjra\GuzzleBundle\EventListener\LogSubscriber;
 use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
+use PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpKernel\Tests\Logger;
 
 /**
@@ -20,9 +21,6 @@ class LogSubscriberTest extends PHPUnit_Framework_TestCase
      */
     protected $subscriber;
 
-    /**
-     * [setUp description]
-     */
     public function setUp()
     {
         $this->subscriber = new LogSubscriber(new Logger());
@@ -30,11 +28,6 @@ class LogSubscriberTest extends PHPUnit_Framework_TestCase
         $kernel->boot();
     }
 
-    /**
-     * [testGetEvents description]
-     *
-     * @return [type] [description]
-     */
     public function testGetEvents()
     {
         $eventsArray = $this->subscriber->getEvents();
