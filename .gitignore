@@ -1,5 +1,5 @@
 /.idea
 /composer.lock
-/Tests/Resources/app/cache
-/Tests/Resources/app/logs
+/Tests/cache
+/Tests/logs
 /vendor

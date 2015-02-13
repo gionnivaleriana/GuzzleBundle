@@ -2,7 +2,7 @@
 
 namespace Kopjra\GuzzleBundle\Tests;
 
-use Kopjra\GuzzleBundle\Services\Services;
+use Kopjra\GuzzleBundle\Manager\ServicesManager;
 use Kopjra\GuzzleBundle\Tests\Resources\app\AppKernel;
 use PHPUnit_Framework_TestCase;
 
@@ -13,19 +13,16 @@ use PHPUnit_Framework_TestCase;
  *
  * @package Kopjra\GuzzleBundle\Tests
  */
-class ServicesTest extends PHPUnit_Framework_TestCase
+class ServicesManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Services
      */
-    protected $services;
+    protected $Services;
 
-    /**
-     * [setUp description]
-     */
+
     public function setUp()
     {
-        $this->markTestIncomplete();
         $kernel = new AppKernel('test', true);
         $kernel->boot();
 
@@ -33,7 +30,9 @@ class ServicesTest extends PHPUnit_Framework_TestCase
         $this->Services = $container->get( 'kopjra.guzzle.services' );
     }
 
-    public function testSetWebServices() {
-        $this->assertTrue( is_object( $this->Services->setWebServices( [ "TestWebservice" ] ) ) );
+    public function testSet()
+    {
+        $webService = $this->Services->set(["TestWebservice"]);
+        $this->assertTrue(is_object($webService));
     }
 }

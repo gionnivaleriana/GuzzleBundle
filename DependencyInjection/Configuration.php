@@ -28,12 +28,42 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('subscribers')
                     ->children()
                         ->append($this->addCacheSubscriberNode())
+                        ->append($this->addOAuthSubscriberNode())
                     ->end()
                 ->end()
             ->end()
         ;
 
         return $treeBuilder;
+    }
+
+    /**
+     * Add a configuration for the oauth subscriber.
+     *
+     * @link https://github.com/guzzle/oauth-subscriber
+     *
+     * @return TreeBuilder
+     */
+    private function addOAuthSubscriberNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('oauth');
+
+        $rootNode
+            ->children()
+                ->variableNode('consumer_key')
+                    ->defaultNull()
+                ->end()
+                ->variableNode('consumer_secret')
+                    ->defaultNull()
+                ->end()
+                ->variableNode('signature_method')
+                    ->defaultValue('HMAC-SHA1')
+                ->end()
+            ->end()
+        ;
+
+        return $rootNode;
     }
 
     /**
