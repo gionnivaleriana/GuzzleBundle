@@ -34,14 +34,21 @@ knp_gaufrette:
       adapter: webservices
 
 kopjra_guzzle:
-  connect_timeout: 15
-  decode_content: gzip
-  headers:
-    Accept-Charset: 'utf-8'
-    Content-Transfer-Encoding: 'binary'
-    User-Agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36'
-  timeout: 15
-  verify: '%kernel.root_dir%/Resources/cacert.cer'
+  client:
+    connect_timeout: 15
+    decode_content: gzip
+    headers:
+      Accept-Charset: 'utf-8'
+      Content-Transfer-Encoding: 'binary'
+      User-Agent: '%user_agent%'
+    timeout: 15
+    verify: '%kernel.root_dir%/Resources/cacert.cer'
+
+  subscribers:
+    oauth:
+      consumer_key: key
+      consumer_secret: secret
+      signature_method: HMAC-SHA1
 
 parameters:
   kernel.secret: null
