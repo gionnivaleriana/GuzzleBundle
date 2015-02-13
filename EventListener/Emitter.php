@@ -8,4 +8,5 @@ use GuzzleHttp\Event\Emitter as BaseEmitter;
  * {@inheritdoc}
  */
 class Emitter extends BaseEmitter
-{}
+{
+}

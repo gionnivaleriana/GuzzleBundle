@@ -6,18 +6,20 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * Class AppKernel
+ * Class AppKernel.
+ *
  * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 03/01/15
  */
-class AppKernel extends Kernel {
+class AppKernel extends Kernel
+{
 
-    public function registerBundles() {
+    public function registerBundles()
+    {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
-            new \Kopjra\GuzzleBundle\KopjraGuzzleBundle()
+            new \Kopjra\GuzzleBundle\KopjraGuzzleBundle(),
         ];
 
         return $bundles;
@@ -26,7 +28,8 @@ class AppKernel extends Kernel {
     /**
      * @inheritdoc
      */
-    public function registerContainerConfiguration(LoaderInterface $loader){
-        $loader->load( __DIR__ . '/config/config.yml' );
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        $loader->load(__DIR__.'/config/config.yml');
     }
 }

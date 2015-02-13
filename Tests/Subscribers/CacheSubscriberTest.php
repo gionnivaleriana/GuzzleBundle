@@ -4,34 +4,35 @@ namespace Kopjra\GuzzleBundle\Tests\Subscribers;
 
 use GuzzleHttp\Client;
 use Kopjra\GuzzleBundle\Subscribers\CacheSubscriber;
+use PHPUnit_Framework_TestCase;
 
 /**
- * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 03/01/15
+ * Class CacheSubscriberTest.
  *
- * Class CacheSubscriberTest
+ * @author Joy Lazari <joy.lazari@gmail.com>
+ *
  * @package Kopjra\GuzzleBundle\Tests
  */
-class CacheSubscriberTest extends \PHPUnit_Framework_TestCase {
-
-    function testAttachCacheSubscriberToTheGuzzleClient() {
+class CacheSubscriberTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * [testAttachCacheSubscriberToTheGuzzleClient description]
+     *
+     * @return [type] [description]
+     */
+    public function testAttachCacheSubscriberToTheGuzzleClient()
+    {
         $client = new Client();
         $cache = new CacheSubscriber();
+
         $client->getEmitter()->attach($cache);
-        //$this->assertObjectHasAttribute('subscriber', $cache);
+
         $this->assertObjectHasAttribute('storage', $cache);
         $this->assertAttributeInstanceOf(
-            'GuzzleHttp\Subscriber\Cache\CacheStorage',
-            "storage", $cache
+            'GuzzleHttp\\Subscriber\\Cache\\CacheStorage',
+            $cache
         );
-        /*
-        $this->assertAttributeInstanceOf(
-            'GuzzleHttp\Subscriber\Cache\CacheSubscriber',
-            "subscriber", $cache
-        );
-        */
+
         $this->assertTrue($client->getEmitter()->hasListeners('error'));
     }
-
-
 }

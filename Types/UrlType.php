@@ -18,7 +18,7 @@ class UrlType extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if (is_null($value) || !trim($value)) {
-            return null;
+            return;
         }
 
         try {
@@ -34,7 +34,7 @@ class UrlType extends Type
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if (is_null($value) || !trim($value)) {
-            return null;
+            return;
         }
 
         return (string) $value;

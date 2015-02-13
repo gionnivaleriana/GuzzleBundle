@@ -3,23 +3,36 @@
 namespace Kopjra\GuzzleBundle\Tests;
 
 use Kopjra\GuzzleBundle\DependencyInjection\Configuration;
+use PHPUnit_Framework_TestCase;
 
 /**
- * Class ConfigurationTest
+ * Class ConfigurationTest.
+ *
  * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 11/02/15
+ *
  * @package Kopjra\GuzzleBundle\Tests
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase {
+class ConfigurationTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * [$configuration description]
+     *
+     * @var [type]
+     */
+    protected $configuration;
 
-	protected $Configuration;
+    /**
+     * [testConfiguration description]
+     *
+     * @return [type] [description]
+     */
+    public function testConfiguration()
+    {
+        $this->configuration = new Configuration();
 
-	public function testConfiguration() {
-		$this->Configuration = new Configuration();
-		$this->assertInstanceOf(
-			'Symfony\Component\Config\Definition\Builder\TreeBuilder',
-			$this->Configuration->getConfigTreeBuilder()
-		);
-	}
-
+        $this->assertInstanceOf(
+            'Symfony\Component\Config\Definition\Builder\TreeBuilder',
+            $this->configuration->getConfigTreeBuilder()
+        );
+    }
 }

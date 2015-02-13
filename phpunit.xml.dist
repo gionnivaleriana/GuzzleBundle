@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" bootstrap="./vendor/autoload.php">
-
+<phpunit backupGlobals="false" bootstrap="vendor/autoload.php" colors="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd">
     <testsuites>
         <testsuite name="GuzzleBundle Test Suite">
             <directory>./Tests</directory>
-            <exclude>./vendor</exclude>
         </testsuite>
     </testsuites>
-
+    <php>
+        <server name="KERNEL_DIR" value="Tests/Resources/app"/>
+    </php>
     <filter>
         <whitelist>
             <directory>./</directory>
@@ -17,15 +17,5 @@
                 <directory>vendor/</directory>
             </exclude>
         </whitelist>
-        <blacklist>
-            <directory>./Resources/</directory>
-            <directory>./Tests/</directory>
-            <directory>./vendor/</directory>
-        </blacklist>
     </filter>
-
-    <php>
-        <server name="KERNEL_DIR" value="Tests/Resources/app"/>
-    </php>
-
 </phpunit>
