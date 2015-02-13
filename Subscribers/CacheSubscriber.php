@@ -7,6 +7,7 @@ use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Event\HasEmitterInterface;
 use GuzzleHttp\Event\SubscriberInterface;
+use GuzzleHttp\Subscriber\Cache\CacheSubscriber as BaseSubscriber;
 
 /**
  * Server and client caching utility.
@@ -115,6 +116,8 @@ class CacheSubscriber implements SubscriberInterface
      */
     public function attach(HasEmitterInterface $client, array $options = null)
     {
-        // ...
+        if ('client' === $this->type) {
+            BaseSubscriber::attach($client, $options);
+        }
     }
 }
