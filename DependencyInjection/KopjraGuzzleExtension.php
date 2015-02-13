@@ -31,6 +31,16 @@ class KopjraGuzzleExtension extends Extension
         // Loading cache subscriber services and parameters
         if ($config['subscribers']['cache']['enabled']) {
             $loader->load('subscribers/cache.xml');
+
+            $container->setParameter(
+                'kopjra_guzzle.subscribers.cache.provider',
+                $config['subscribers']['cache']['provider']
+            );
+
+            $container->setParameter(
+                'kopjra_guzzle.subscribers.cache.type',
+                $config['subscribers']['cache']['type']
+            );
         }
     }
 }
