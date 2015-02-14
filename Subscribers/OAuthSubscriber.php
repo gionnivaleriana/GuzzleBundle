@@ -2,7 +2,7 @@
 
 namespace Kopjra\GuzzleBundle\Subscribers;
 
-use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use GuzzleHttp\Subscriber\Oauth\Oauth1 as BaseSubscriber;
 
 /**
  * Class OAuthSubscriber.
@@ -11,22 +11,27 @@ use GuzzleHttp\Subscriber\Oauth\Oauth1;
  *
  * @package Kopjra\GuzzleBundle\OAuth
  */
-class OAuthSubscriber extends Oauth1
+class OAuthSubscriber extends BaseSubscriber
 {
-    /**
-     * [__construct description]
-     */
-    public function __construct()
-    {
-    }
 
     /**
+     * @inheritdoc
      * @param array $config
-     *
-     * @return \GuzzleHttp\Subscriber\Oauth\Oauth1
      */
-    public function config(array $config)
+    public function __construct(array $config)
     {
-        return new parent($config);
+        $keys = [
+            'request_method',
+            'callback',
+            'consumer_key',
+            'consumer_secret',
+            'token',
+            'token_secret',
+            'verifier',
+            'version',
+            'realm',
+            'signature_method'
+        ];
+        parent::__construct(array_combine($keys, $config));
     }
 }

@@ -50,16 +50,24 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('oauth');
 
         $rootNode
+            //->addDefaultsIfNotSet()
             ->children()
-                ->variableNode('consumer_key')
-                    ->defaultNull()
+                ->booleanNode('enabled')
+                    ->defaultFalse()
                 ->end()
-                ->variableNode('consumer_secret')
-                    ->defaultNull()
+                ->enumNode('request_method')
+                    ->defaultValue('header')
+                    ->values(['header', 'query'])
                 ->end()
-                ->variableNode('signature_method')
-                    ->defaultValue('HMAC-SHA1')
-                ->end()
+                ->scalarNode('callback')->end()
+                ->scalarNode('consumer_key')->end()
+                ->scalarNode('consumer_secret')->end()
+                ->scalarNode('token')->end()
+                ->scalarNode('token_secret')->end()
+                ->scalarNode('verifier')->end()
+                ->scalarNode('version')->end()
+                ->scalarNode('realm')->end()
+                ->scalarNode('signature_method')->end()
             ->end()
         ;
 

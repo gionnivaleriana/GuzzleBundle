@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="kopjra_guzzle.cache_subscriber">Kopjra\GuzzleBundle\Subscribers\CacheSubscriber</parameter>
         <parameter key="kopjra_guzzle.log_subscriber">Kopjra\GuzzleBundle\EventListener\LogSubscriber</parameter>
-        <parameter key="kopjra_guzzle.oauth_subscriber">Kopjra\GuzzleBundle\Subscribers\OAuthSubscriber</parameter>
         <parameter key="kopjra_guzzle.retry_subscriber">Kopjra\GuzzleBundle\Subscribers\RetrySubscriber</parameter>
         <parameter key="kopjra_guzzle.servicesmanager">Kopjra\GuzzleBundle\Manager\ServicesManager</parameter>
     </parameters>
@@ -16,17 +14,11 @@
             <tag name="twig.extension"/>
         </service>
         <service class="Kopjra\GuzzleBundle\EventListener\Emitter" id="kopjra.guzzle_bundle.event_listener.emitter" public="false"/>
-        <service class="%kopjra_guzzle.log_subscriber%" id="kopjra.guzzle_bundle.event_listener.log_subscriber" public="false">
+        <service class="%kopjra_guzzle.log_subscriber%" id="kopjra.guzzle.subscribers.log" public="false">
             <argument id="logger" type="service"/>
             <tag name="guzzle.subscriber"/>
         </service>
-        <service class="%kopjra_guzzle.oauth_subscriber%" id="kopjra.guzzle.oauth">
-            <tag name="guzzle.subscriber"/>
-        </service>
-        <service class="%kopjra_guzzle.cache_subscriber%" id="kopjra.guzzle.cache">
-            <tag name="guzzle.subscriber"/>
-        </service>
-        <service class="%kopjra_guzzle.retry_subscriber%" id="kopjra.guzzle.retry">
+        <service class="%kopjra_guzzle.retry_subscriber%" id="kopjra.guzzle.subscribers.retry">
             <tag name="guzzle.subscriber"/>
         </service>
         <service class="%kopjra_guzzle.servicesmanager%" id="kopjra.guzzle.servicesmanager">
