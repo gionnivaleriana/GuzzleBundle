@@ -12,4 +12,6 @@ Default Bundle Configuration
             # Must implement the Doctrine\Common\Cache\Cache interface
             # Default provider: Doctrine\Common\Cache\ArrayCache
             provider: '%kopjra_guzzle.subscribers.cache.provider%'
+            # Caching type can be "client" (default) or "server"
+            type: '%kopjra_guzzle.subscribers.cache.type%'
           log: # ...
