@@ -2,10 +2,15 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
         <parameter key="kopjra_guzzle.servicesmanager">Kopjra\GuzzleBundle\Manager\ServicesManager</parameter>
+        <parameter key="kopjra_guzzle.servicesmanager.directory"/>
+        <parameter key="kopjra_guzzle.servicesmanager.filesystem.service">guzzle</parameter>
+        <parameter key="kopjra_guzzle.servicesmanager.filesystem.adapter"/>
     </parameters>
     <services>
         <service class="%kopjra_guzzle.servicesmanager%" id="kopjra.guzzle.manager.services">
-            <argument id="knp_gaufrette.filesystem_map" type="service"/>
+            <argument>%kopjra_guzzle.servicesmanager.directory%</argument>
+            <argument id="%kopjra_guzzle.servicesmanager.filesystem.service%" type="service"/>
+            <argument>%kopjra_guzzle.servicesmanager.filesystem.adapter%</argument>
         </service>
     </services>
 </container>

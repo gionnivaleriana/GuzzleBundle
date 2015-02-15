@@ -25,9 +25,7 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('client')
                     ->info('Guzzle 5 client configuration (http://docs.guzzlephp.org/en/latest/clients.html)')
                 ->end()
-                ->booleanNode('services_manager')
-                    ->defaultFalse()
-                ->end()
+                ->append($this->addServiceManagerNode())
                 ->arrayNode('subscribers')
                     ->children()
                         ->append($this->addCacheSubscriberNode())
@@ -40,6 +38,39 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $treeBuilder;
+    }
+
+    /**
+     * Add a configuration for the service manager
+     *
+     * @return TreeBuilder
+     */
+    private function addServiceManagerNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('services_manager');
+
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike(['enabled' => false])
+            ->treatNullLike(['enabled' => false])
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultFalse()
+                ->end()
+                ->scalarNode('directory')
+                    ->defaultNull()
+                ->end()
+                ->arrayNode('filesystem')
+                    ->children()
+                        ->scalarNode('service')->end()
+                        ->scalarNode('adapter')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
+        return $rootNode;
     }
 
     /**

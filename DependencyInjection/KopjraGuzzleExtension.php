@@ -40,8 +40,11 @@ class KopjraGuzzleExtension extends Extension
         }
 
         // If ServiceManager is enabled, load the service
-        if($config['services_manager']){
+        if($config['services_manager']['enabled']){
             $loader->load('manager/services.xml');
+            foreach ($config['services_manager'] as $parameterName => $parameter) {
+                $container->setParameter('kopjra_guzzle.services_manager.'.$parameterName, $parameter);
+            }
         }
     }
 }
