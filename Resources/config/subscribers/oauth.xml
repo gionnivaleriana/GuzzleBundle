@@ -3,14 +3,14 @@
     <parameters>
         <parameter key="kopjra_guzzle.oauth_subscriber">Kopjra\GuzzleBundle\Subscribers\OAuthSubscriber</parameter>
         <parameter key="kopjra_guzzle.subscribers.oauth.request_method">head</parameter>
-        <parameter key="kopjra_guzzle.subscribers.oauth.oaut_callback"></parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oaut_callback"/>
         <parameter key="kopjra_guzzle.subscribers.oauth.consumer_key">anonymous</parameter>
         <parameter key="kopjra_guzzle.subscribers.oauth.consumer_secret">anonymous</parameter>
-        <parameter key="kopjra_guzzle.subscribers.oauth.token"></parameter>
-        <parameter key="kopjra_guzzle.subscribers.oauth.token_secret"></parameter>
-        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_verifier"></parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.token"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.token_secret"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_verifier"/>
         <parameter key="kopjra_guzzle.subscribers.oauth.oauth_version" type="string">1.0</parameter>
-        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_realm"></parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_realm"/>
         <parameter key="kopjra_guzzle.subscribers.oauth.signature_method">HMAC-SHA1</parameter>
     </parameters>
     <services>

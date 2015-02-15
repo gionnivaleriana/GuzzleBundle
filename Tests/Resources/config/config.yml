@@ -1,0 +1,45 @@
+kopjra_guzzle:
+  # Guzzle 5 client configuration (http://docs.guzzlephp.org/en/latest/clients.html)
+  client:
+    connect_timeout: 15
+    decode_content: gzip
+    headers:
+      Accept-Charset: 'utf-8'
+      Content-Transfer-Encoding: 'binary'
+      User-Agent: '%user_agent%'
+    timeout: 15
+    verify: '%kernel.root_dir%/Resources/cacert.cer'
+
+  services_manager: true
+
+  subscribers:
+    cache:
+      enabled: true
+      provider: Doctrine\Common\Cache\ArrayCache
+      type: server
+
+    log:
+      enabled: true
+
+    oauth:
+      enabled: true
+      consumer_key: dummy
+      consumer_secret: dummy
+      signature_method: HMAC-SHA1
+
+    retry:
+      enabled: true
+      filter:
+        - 500
+        - 503
+      delay: 1000
+      max: 5
+
+knp_gaufrette:
+    webservices:
+      local:
+        directory: '%kernel.root_dir%/Resources/Webservices'
+
+  filesystems:
+    webservices:
+      adapter: webservices

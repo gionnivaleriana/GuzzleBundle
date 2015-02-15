@@ -6,7 +6,7 @@
         <parameter key="kopjra_guzzle.subscribers.cache.type">client</parameter>
     </parameters>
     <services>
-        <service class="%kopjra_guzzle.subscribers.cache.provider%" id="kopjra.guzzle.cache.subscribers.provider"/>
+        <service class="%kopjra_guzzle.subscribers.cache.provider%" id="kopjra.guzzle.cache.subscribers.provider" public="false"/>
         <service class="%kopjra_guzzle.subscribers.cache.class%" id="kopjra.guzzle.subscribers.cache" public="true">
             <argument id="kopjra.guzzle.cache.subscribers.provider" type="service"/>
             <argument>%kopjra_guzzle.subscribers.cache.type%</argument>

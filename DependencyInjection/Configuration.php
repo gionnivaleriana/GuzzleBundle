@@ -25,10 +25,15 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('client')
                     ->info('Guzzle 5 client configuration (http://docs.guzzlephp.org/en/latest/clients.html)')
                 ->end()
+                ->booleanNode('services_manager')
+                    ->defaultFalse()
+                ->end()
                 ->arrayNode('subscribers')
                     ->children()
                         ->append($this->addCacheSubscriberNode())
+                        ->append($this->addLogSubscriberNode())
                         ->append($this->addOAuthSubscriberNode())
+                        ->append($this->addRetrySubscriberNode())
                     ->end()
                 ->end()
             ->end()
@@ -50,7 +55,9 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('oauth');
 
         $rootNode
-            //->addDefaultsIfNotSet()
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike(['enabled' => false])
+            ->treatNullLike(['enabled' => false])
             ->children()
                 ->booleanNode('enabled')
                     ->defaultFalse()
@@ -60,14 +67,23 @@ class Configuration implements ConfigurationInterface
                     ->values(['header', 'query'])
                 ->end()
                 ->scalarNode('callback')->end()
-                ->scalarNode('consumer_key')->end()
-                ->scalarNode('consumer_secret')->end()
+                ->scalarNode('consumer_key')
+                    ->defaultValue('anonymous')
+                ->end()
+                ->scalarNode('consumer_secret')
+                    ->defaultValue('anonymous')
+                ->end()
                 ->scalarNode('token')->end()
                 ->scalarNode('token_secret')->end()
                 ->scalarNode('verifier')->end()
-                ->scalarNode('version')->end()
+                ->scalarNode('version')
+                    ->defaultValue('1.0')
+                ->end()
                 ->scalarNode('realm')->end()
-                ->scalarNode('signature_method')->end()
+                ->enumNode('signature_method')
+                    ->defaultValue('HMAC-SHA1')
+                    ->values(['HMAC-SHA1', 'RSA-SHA1', 'PLAINTEXT'])
+                ->end()
             ->end()
         ;
 
@@ -102,6 +118,68 @@ class Configuration implements ConfigurationInterface
                     ->cannotBeEmpty()
                     ->defaultValue('%kopjra_guzzle.subscribers.cache.type%')
                     ->values(['client', 'server'])
+                ->end()
+            ->end()
+        ;
+
+        return $rootNode;
+    }
+
+    /**
+     * Add a configuration for the retry subscriber.
+     *
+     * @link https://github.com/guzzle/retry-subscriber
+     *
+     * @return TreeBuilder
+     */
+    private function addRetrySubscriberNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('retry');
+
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike(['enabled' => false])
+            ->treatNullLike(['enabled' => false])
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultFalse()
+                ->end()
+                ->variableNode('filter')
+                ->end()
+                ->integerNode('delay')
+                    ->defaultValue(1000)
+                    ->min(0)
+                ->end()
+                ->integerNode('max')
+                    ->defaultValue(5)
+                    ->min(1)
+                ->end()
+            ->end()
+        ;
+
+        return $rootNode;
+    }
+
+    /**
+     * Add a configuration for the log subscriber.
+     *
+     * @link https://github.com/guzzle/log-subscriber
+     *
+     * @return TreeBuilder
+     */
+    private function addLogSubscriberNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('log');
+
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike(['enabled' => false])
+            ->treatNullLike(['enabled' => false])
+            ->children()
+                ->booleanNode('enabled')
+                    ->defaultFalse()
                 ->end()
             ->end()
         ;

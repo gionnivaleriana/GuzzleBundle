@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <parameters>
-        <parameter key="kopjra_guzzle.log_subscriber">Kopjra\GuzzleBundle\EventListener\LogSubscriber</parameter>
-        <parameter key="kopjra_guzzle.retry_subscriber">Kopjra\GuzzleBundle\Subscribers\RetrySubscriber</parameter>
-        <parameter key="kopjra_guzzle.servicesmanager">Kopjra\GuzzleBundle\Manager\ServicesManager</parameter>
-    </parameters>
     <services>
         <service class="GuzzleHttp\Client" id="guzzle">
-            <argument></argument>
+            <argument/>
         </service>
         <service class="Kopjra\GuzzleBundle\Twig\GuzzleExtension" id="kopjra.guzzle_bundle.twig.guzzle_extension" public="false">
             <argument id="guzzle" type="service"/>
             <tag name="twig.extension"/>
         </service>
         <service class="Kopjra\GuzzleBundle\EventListener\Emitter" id="kopjra.guzzle_bundle.event_listener.emitter" public="false"/>
-        <service class="%kopjra_guzzle.log_subscriber%" id="kopjra.guzzle.subscribers.log" public="false">
-            <argument id="logger" type="service"/>
-            <tag name="guzzle.subscriber"/>
-        </service>
-        <service class="%kopjra_guzzle.retry_subscriber%" id="kopjra.guzzle.subscribers.retry">
-            <tag name="guzzle.subscriber"/>
-        </service>
-        <service class="%kopjra_guzzle.servicesmanager%" id="kopjra.guzzle.servicesmanager">
-            <argument id="knp_gaufrette.filesystem_map" type="service"/>
-        </service>
     </services>
 </container>

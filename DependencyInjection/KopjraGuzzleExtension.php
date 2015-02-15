@@ -38,5 +38,10 @@ class KopjraGuzzleExtension extends Extension
                 }
             }
         }
+
+        // If ServiceManager is enabled, load the service
+        if($config['services_manager']){
+            $loader->load('manager/services.xml');
+        }
     }
 }
