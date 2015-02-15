@@ -6,9 +6,7 @@ kopjra_guzzle:
     headers:
       Accept-Charset: 'utf-8'
       Content-Transfer-Encoding: 'binary'
-      User-Agent: '%user_agent%'
     timeout: 15
-    verify: '%kernel.root_dir%/Resources/cacert.cer'
 
   services_manager: true
 
@@ -36,10 +34,28 @@ kopjra_guzzle:
       max: 5
 
 knp_gaufrette:
+  adapters:
     webservices:
       local:
         directory: '%kernel.root_dir%/Resources/Webservices'
-
   filesystems:
     webservices:
       adapter: webservices
+
+framework:
+  router:
+    resource: ruoting.yml
+  templating:
+    engines:
+    - twig
+  test: null
+
+parameters:
+  kernel.secret: ThisTokenIsNotSoSecretChangeIt
+
+monolog:
+  handlers:
+    main:
+      level: debug
+      path: '%kernel.logs_dir%/%kernel.environment%.log'
+      type: stream
