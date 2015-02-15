@@ -10,10 +10,9 @@ use GuzzleHttp\Subscriber\Retry\RetrySubscriber as BaseSubscriber;
 class RetrySubscriber extends BaseSubscriber
 {
     public function __construct(array $config){
-        define("RETRY_SUBSCRIBER_DEFAULT_DELAY", $config[1]);
         $config = [
             'filter' => parent::createStatusFilter($config[0]),
-            'delay'  => function () { return RETRY_SUBSCRIBER_DEFAULT_DELAY; },
+            'delay'  => function () { global $config; return $config[1]; },
             'max' => $config[2]
         ];
         parent::__construct($config);
