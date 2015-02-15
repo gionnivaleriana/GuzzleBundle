@@ -35,7 +35,7 @@ class CacheSubscriber implements SubscriberInterface
      * Class constructor.
      *
      * @param Cache  $cache Doctrine cache provider.
-     * @param string $type  Can be "server" or "client".
+     * @param string $type  Can be "client" (default) or "server".
      */
     public function __construct(Cache $cache, $type)
     {
@@ -51,13 +51,15 @@ class CacheSubscriber implements SubscriberInterface
         if ('server' === $this->type) {
             return [
                 'before' => [
-                    'onServerBefore',
+                    ['onBefore', 'first'],
                 ],
                 'complete' => [
-                    'onServerComplete',
+                    ['onComplete', 'last'],
                 ],
             ];
         }
+
+        return [];
     }
 
     /**
@@ -67,7 +69,7 @@ class CacheSubscriber implements SubscriberInterface
      *
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
      */
-    public function onServerBefore(BeforeEvent $event)
+    public function onBefore(BeforeEvent $event)
     {
         $request = $event->getRequest();
         $cache = $this->cache;
@@ -95,7 +97,7 @@ class CacheSubscriber implements SubscriberInterface
      *
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
      */
-    public function onServerComplete(CompleteEvent $event)
+    public function onComplete(CompleteEvent $event)
     {
         $request = $event->getRequest();
         $response = $event->getResponse();
@@ -123,10 +125,12 @@ class CacheSubscriber implements SubscriberInterface
      */
     public function attach(HasEmitterInterface $client, array $options = null)
     {
-        if ('client' === $this->type) {
+        if (!isset($options['storage'])) {
             $options['storage'] = new CacheStorage($this->cache);
+        }
 
-            BaseSubscriber::attach($client, $options);
+        if ('client' === $this->type) {
+            return BaseSubscriber::attach($client, $options);
         }
     }
 }
