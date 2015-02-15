@@ -5,6 +5,7 @@ namespace Kopjra\GuzzleBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -28,19 +29,19 @@ class KopjraGuzzleExtension extends Extension
         );
         $loader->load('services.xml');
 
-        // Loading cache subscriber services and parameters
-        if ($config['subscribers']['cache']['enabled']) {
-            $loader->load('subscribers/cache.xml');
+        // For each subscriber, if enabled, load services and parameters
+        foreach($config['subscribers'] as $subscriberName => $subscriber){
+            if($subscriber['enabled']){
+                $loader->load('subscribers/'.$subscriberName.'.xml');
+                foreach ($config['subscribers'][$subscriberName] as $parameterName => $parameter) {
+                    $container->setParameter('kopjra_guzzle.subscribers.'.$subscriberName.'.'.$parameterName, $parameter);
+                }
+            }
+        }
 
-            $container->setParameter(
-                'kopjra_guzzle.subscribers.cache.provider',
-                $config['subscribers']['cache']['provider']
-            );
-
-            $container->setParameter(
-                'kopjra_guzzle.subscribers.cache.type',
-                $config['subscribers']['cache']['type']
-            );
+        // If ServiceManager is enabled, load the service
+        if($config['services_manager']){
+            $loader->load('manager/services.xml');
         }
     }
 }

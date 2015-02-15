@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="kopjra_guzzle.oauth_subscriber">Kopjra\GuzzleBundle\Subscribers\OAuthSubscriber</parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.request_method">head</parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oaut_callback"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.consumer_key">anonymous</parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.consumer_secret">anonymous</parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.token"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.token_secret"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_verifier"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_version" type="string">1.0</parameter>
+        <parameter key="kopjra_guzzle.subscribers.oauth.oauth_realm"/>
+        <parameter key="kopjra_guzzle.subscribers.oauth.signature_method">HMAC-SHA1</parameter>
+    </parameters>
+    <services>
+        <service class="%kopjra_guzzle.oauth_subscriber%" id="kopjra.guzzle.subscribers.oauth">
+            <argument type="collection">
+                <argument>%kopjra_guzzle.subscribers.oauth.request_method%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.oaut_callback%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.consumer_key%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.consumer_secret%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.token%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.token_secret%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.oauth_verifier%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.oauth_version%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.oauth_realm%</argument>
+                <argument>%kopjra_guzzle.subscribers.oauth.signature_method%</argument>
+            </argument>
+            <tag name="guzzle.subscriber"/>
+        </service>
+    </services>
+</container>

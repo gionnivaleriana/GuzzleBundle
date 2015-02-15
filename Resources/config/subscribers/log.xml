@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="kopjra_guzzle.log_subscriber">Kopjra\GuzzleBundle\EventListener\LogSubscriber</parameter>
+    </parameters>
+    <services>
+        <service class="%kopjra_guzzle.log_subscriber%" id="kopjra.guzzle.subscribers.log" public="true">
+            <argument id="logger" type="service"/>
+            <tag name="guzzle.subscriber"/>
+        </service>
+    </services>
+</container>
