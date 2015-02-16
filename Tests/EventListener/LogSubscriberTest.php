@@ -59,6 +59,16 @@ class LogSubscriberTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * @covers Kopjra\GuzzleBundle\EventListener\LogSubscriber::__construct
+     */
+    public function testLogSubscriber(){
+        $this->assertInstanceOf(
+            'GuzzleHttp\Event\SubscriberInterface',
+            new LogSubscriber(new \Symfony\Component\HttpKernel\Tests\Logger())
+        );
+    }
+
+    /**
      * @covers Kopjra\GuzzleBundle\EventListener\LogSubscriber::getEvents
      */
     public function testGetEvents() {
