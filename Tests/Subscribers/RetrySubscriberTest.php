@@ -23,7 +23,7 @@ class RetrySubscriberTest extends \PHPUnit_Framework_TestCase
      * {@inheritdoc}
      */
     protected function setUp() {
-        $this->kernel = new AppKernel('KopjraGuzzleExtensionTest', true);
+        $this->kernel = new AppKernel('test', true);
         $this->kernel->boot();
         $this->RetrySubscriber = $this->kernel->getContainer()->get('kopjra.guzzle.subscribers.retry');
     }

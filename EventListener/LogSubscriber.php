@@ -51,13 +51,14 @@ class LogSubscriber implements SubscriberInterface
      * Example: [before] GET http://www.example.com/path
      *
      * @param BeforeEvent      $event
-     * @param $name
+     * @param string           $name
      * @param EmitterInterface $emitter
      */
     public function onBefore(BeforeEvent $event, $name, EmitterInterface $emitter = null)
     {
         $logger = $this->logger;
         $request = $event->getRequest();
+        var_dump($request); die;
         $message = sprintf(
             '[%s] %s %s',
             $name,
@@ -75,7 +76,7 @@ class LogSubscriber implements SubscriberInterface
      * Example: [complete] 200 http://www.example.com/path
      *
      * @param CompleteEvent    $event
-     * @param $name
+     * @param string           $name
      * @param EmitterInterface $emitter
      */
     public function onComplete(CompleteEvent $event, $name, EmitterInterface $emitter = null)
@@ -95,20 +96,18 @@ class LogSubscriber implements SubscriberInterface
 
     /**
      * Log after an error is thrown or an error was received, 5XX are considered error
-     *
      * Example: [warning] 404 (Page Not Found) http://www.example.com/path
      * Example: [error] 500 (Server Error) http://www.example.com/path
      *
      * @param ErrorEvent       $event
-     * @param $name
+     * @param string           $method
      * @param EmitterInterface $emitter
      */
-    public function onError(ErrorEvent $event, $name, EmitterInterface $emitter = null)
+    public function onError(ErrorEvent $event, $method = 'error', EmitterInterface $emitter = null)
     {
         $logger = $this->logger;
         $exception = $event->getException();
         $response = $event->getResponse();
-        $method = 'error';
         $message = sprintf(
             '[%s] %s (%s) %s',
             $method,

@@ -18,7 +18,7 @@ class OAuthSubscriberTest extends \PHPUnit_Framework_TestCase
      * {@inheritdoc}
      */
     protected function setUp() {
-        $this->kernel = new AppKernel('KopjraGuzzleExtensionTest', true);
+        $this->kernel = new AppKernel('test', true);
         $this->kernel->boot();
     }
 
