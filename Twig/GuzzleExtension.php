@@ -113,6 +113,6 @@ class GuzzleExtension extends Twig_Extension
      */
     public function getName()
     {
-        return 'kopjra.guzzle_bundle.twig.guzzle_extension';
+        return 'kpj_guzzle.twig.guzzle_extension';
     }
 }

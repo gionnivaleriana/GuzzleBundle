@@ -29,22 +29,57 @@ class KopjraGuzzleExtension extends Extension
         );
         $loader->load('services.xml');
 
-        // For each subscriber, if enabled, load services and parameters
-        foreach($config['subscribers'] as $subscriberName => $subscriber){
-            if($subscriber['enabled']){
-                $loader->load('subscribers/'.$subscriberName.'.xml');
-                foreach ($config['subscribers'][$subscriberName] as $parameterName => $parameter) {
-                    $container->setParameter('kopjra_guzzle.subscribers.'.$subscriberName.'.'.$parameterName, $parameter);
-                }
-            }
+        // Twig extension is loaded only if it's enabled
+        // If twig isn't available then this extension isn't loaded
+        if ($config['twig']['enabled'] && $container->hasDefinition('twig')) {
+            $loader->load('twig.xml');
         }
 
-        // If ServiceManager is enabled, load the service
-        if($config['services_manager']['enabled']){
-            $loader->load('manager/services.xml');
-            foreach ($config['services_manager'] as $parameterName => $parameter) {
-                $container->setParameter('kopjra_guzzle.services_manager.'.$parameterName, $parameter);
-            }
+        // Load subscribers sections
+        $this->loadSubscribers($config['subscribers'], $container);
+
+        // Replace the emitter with a new one because
+        // the framework doesn't allow calls on getters
+        $guzzle = $container->getDefinition('kpj_guzzle');
+
+        $config['client']['emitter'] = new Reference('kpj_guzzle.event.emitter');
+
+        $guzzle->replaceArgument(0, $config['client']);
+    }
+
+    /**
+     * For each subscriber, if enabled, load services and parameters.
+     *
+     * @param array            $config    Subscribers section only.
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function loadSubscribers(array $config, ContainerBuilder $container)
+    {
+        $loader = new Loader\XmlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config/subscribers')
+        );
+
+        // Cache is loaded only if it's enabled
+        if ($config['cache']['enabled']) {
+            $loader->load('cache.xml');
+        }
+
+        // Logger is loaded only if it's enabled
+        // If monolog isn't available then logger isn't loaded
+        // http://slides.seld.be/?file=2011-10-20+High+Performance+Websites+with+Symfony2.html#33
+        if ($config['log']['enabled'] && $container->hasDefinition('logger')) {
+            $loader->load('log.xml');
+        }
+
+        // OAuth is loaded only if it's enabled
+        if ($config['oauth']['enabled']) {
+            $loader->load('oauth.xml');
+        }
+
+        // Retry system is loaded only if it's enabled
+        if ($config['retry']['enabled']) {
+            $loader->load('retry.xml');
         }
     }
 }

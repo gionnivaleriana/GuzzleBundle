@@ -31,7 +31,7 @@ class KopjraGuzzleExtensionTest extends PHPUnit_Framework_TestCase
     {
         $container = $this->kernel->getContainer();
 
-        $this->assertTrue($container->has('guzzle'));
-        $this->assertInstanceOf('GuzzleHttp\\ClientInterface', $container->get('guzzle'));
+        $this->assertTrue($container->has('kpj_guzzle'));
+        $this->assertInstanceOf('GuzzleHttp\\ClientInterface', $container->get('kpj_guzzle'));
     }
 }

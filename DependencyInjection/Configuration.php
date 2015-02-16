@@ -13,20 +13,37 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
+     * Default subscribers (all disabled) of them
+     * aren't explicitly defined.
+     *
+     * @var array
+     */
+    private $defaultSubscribers = [
+        'cache' => false,
+        'log' => false,
+        'oauth' => false,
+        'retry' => false,
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('kopjra_guzzle');
+        $rootNode = $treeBuilder->root('kpj_guzzle');
 
         $rootNode
+            ->addDefaultsIfNotSet()
             ->children()
                 ->variableNode('client')
+                    ->defaultValue([])
                     ->info('Guzzle 5 client configuration (http://docs.guzzlephp.org/en/latest/clients.html)')
                 ->end()
-                ->append($this->addServiceManagerNode())
                 ->arrayNode('subscribers')
+                    ->defaultValue($this->defaultSubscribers)
+                    ->prototype('array')->end()
+                    ->treatNullLike($this->defaultSubscribers)
                     ->children()
                         ->append($this->addCacheSubscriberNode())
                         ->append($this->addLogSubscriberNode())
@@ -34,43 +51,11 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addRetrySubscriberNode())
                     ->end()
                 ->end()
+                ->append($this->addTwigExtensionNode())
             ->end()
         ;
 
         return $treeBuilder;
-    }
-
-    /**
-     * Add a configuration for the service manager
-     *
-     * @return TreeBuilder
-     */
-    private function addServiceManagerNode()
-    {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('services_manager');
-
-        $rootNode
-            ->addDefaultsIfNotSet()
-            ->treatFalseLike(['enabled' => false])
-            ->treatNullLike(['enabled' => false])
-            ->children()
-                ->booleanNode('enabled')
-                    ->defaultFalse()
-                ->end()
-                ->scalarNode('directory')
-                    ->defaultNull()
-                ->end()
-                ->arrayNode('filesystem')
-                    ->children()
-                        ->scalarNode('service')->end()
-                        ->scalarNode('adapter')->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-
-        return $rootNode;
     }
 
     /**
@@ -87,33 +72,33 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
-            ->treatFalseLike(['enabled' => false])
-            ->treatNullLike(['enabled' => false])
+            ->canBeEnabled()
+            ->info('https://github.com/guzzle/oauth-subscriber')
             ->children()
-                ->booleanNode('enabled')
-                    ->defaultFalse()
-                ->end()
                 ->enumNode('request_method')
                     ->defaultValue('header')
                     ->values(['header', 'query'])
                 ->end()
+                ->enumNode('signature_method')
+                    ->defaultValue('HMAC-SHA1')
+                    ->values(['HMAC-SHA1', 'RSA-SHA1', 'PLAINTEXT'])
+                ->end()
                 ->scalarNode('callback')->end()
                 ->scalarNode('consumer_key')
+                    ->cannotBeEmpty()
                     ->defaultValue('anonymous')
                 ->end()
                 ->scalarNode('consumer_secret')
+                    ->cannotBeEmpty()
                     ->defaultValue('anonymous')
                 ->end()
+                ->scalarNode('realm')->end()
                 ->scalarNode('token')->end()
                 ->scalarNode('token_secret')->end()
                 ->scalarNode('verifier')->end()
                 ->scalarNode('version')
+                    ->cannotBeEmpty()
                     ->defaultValue('1.0')
-                ->end()
-                ->scalarNode('realm')->end()
-                ->enumNode('signature_method')
-                    ->defaultValue('HMAC-SHA1')
-                    ->values(['HMAC-SHA1', 'RSA-SHA1', 'PLAINTEXT'])
                 ->end()
             ->end()
         ;
@@ -135,18 +120,14 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
-            ->treatFalseLike(['enabled' => false])
-            ->treatNullLike(['enabled' => false])
+            ->canBeEnabled()
+            ->info('https://github.com/guzzle/cache-subscriber')
             ->children()
-                ->booleanNode('enabled')
-                    ->defaultFalse()
-                ->end()
                 ->scalarNode('provider')
                     ->cannotBeEmpty()
                     ->defaultValue('%kopjra_guzzle.subscribers.cache.provider%')
                 ->end()
                 ->enumNode('type')
-                    ->cannotBeEmpty()
                     ->defaultValue('%kopjra_guzzle.subscribers.cache.type%')
                     ->values(['client', 'server'])
                 ->end()
@@ -170,20 +151,27 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
-            ->treatFalseLike(['enabled' => false])
-            ->treatNullLike(['enabled' => false])
+            ->canBeEnabled()
+            ->info('https://github.com/guzzle/retry-subscriber')
             ->children()
-                ->booleanNode('enabled')
-                    ->defaultFalse()
-                ->end()
-                ->variableNode('filter')
-                ->end()
                 ->integerNode('delay')
-                    ->defaultValue(1000)
+                    ->defaultValue('%kpj_guzzle.subscribers.retry.delay%')
                     ->min(0)
                 ->end()
+                ->arrayNode('filter')
+                    ->children()
+                        ->scalarNode('class')
+                            ->cannotBeEmpty()
+                            ->defaultValue('%kpj_guzzle.subscribers.retry.filter.class%')
+                        ->end()
+                        ->scalarNode('method')
+                            ->cannotBeEmpty()
+                            ->defaultValue('%kpj_guzzle.subscribers.retry.filter.method%')
+                        ->end()
+                    ->end()
+                ->end()
                 ->integerNode('max')
-                    ->defaultValue(5)
+                    ->defaultValue('%kpj_guzzle.subscribers.retry.max%')
                     ->min(1)
                 ->end()
             ->end()
@@ -205,14 +193,25 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('log');
 
         $rootNode
-            ->addDefaultsIfNotSet()
-            ->treatFalseLike(['enabled' => false])
-            ->treatNullLike(['enabled' => false])
-            ->children()
-                ->booleanNode('enabled')
-                    ->defaultFalse()
-                ->end()
-            ->end()
+            ->canBeEnabled()
+            ->info('https://github.com/guzzle/log-subscriber')
+        ;
+
+        return $rootNode;
+    }
+
+    /**
+     * Add a configuration for the Twig extension.
+     *
+     * @return TreeBuilder
+     */
+    public function addTwigExtensionNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('twig');
+
+        $rootNode
+            ->canBeEnabled()
         ;
 
         return $rootNode;

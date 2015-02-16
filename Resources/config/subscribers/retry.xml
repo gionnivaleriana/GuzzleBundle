@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="kopjra_guzzle.retry_subscriber">Kopjra\GuzzleBundle\Subscribers\RetrySubscriber</parameter>
-        <parameter key="kopjra_guzzle.subscribers.retry.filter" type="collection">
-            <parameter>500</parameter>
-            <parameter>503</parameter>
-        </parameter>
-        <parameter key="kopjra_guzzle.subscribers.retry.delay">1000</parameter>
-        <parameter key="kopjra_guzzle.subscribers.retry.max">5</parameter>
+        <parameter key="kpj_guzzle.subscribers.retry.class">GuzzleHttp\Subscriber\Retry\RetrySubscriber</parameter>
+        <parameter key="kpj_guzzle.subscribers.retry.filter.class">GuzzleHttp\Subscriber\Retry\RetrySubscriber</parameter>
+        <parameter key="kpj_guzzle.subscribers.retry.filter.method">createStatusFilter</parameter>
+        <parameter key="kpj_guzzle.subscribers.retry.delay">1000</parameter>
+        <parameter key="kpj_guzzle.subscribers.retry.max">5</parameter>
     </parameters>
     <services>
-        <service class="%kopjra_guzzle.retry_subscriber%" id="kopjra.guzzle.subscribers.retry">
+        <service class="%kpj_guzzle.subscribers.retry.class%" id="kpj_guzzle.subscribers.retry" public="false">
             <argument type="collection">
-                <argument>%kopjra_guzzle.subscribers.retry.filter%</argument>
-                <argument>%kopjra_guzzle.subscribers.retry.delay%</argument>
-                <argument>%kopjra_guzzle.subscribers.retry.max%</argument>
+                <argument key="delay">%kpj_guzzle.subscribers.retry.delay%</argument>
+                <argument key="filter" type="collection">
+                    <parameter>%kpj_guzzle.subscribers.retry.filter.class%</parameter>
+                    <parameter>%kpj_guzzle.subscribers.retry.filter.method%</parameter>
+                </argument>
+                <argument key="max">%kpj_guzzle.subscribers.retry.max%</argument>
             </argument>
-            <tag name="guzzle.subscriber"/>
+            <tag name="kpj_guzzle.subscriber"/>
         </service>
     </services>
 </container>
