@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
-            new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+
             new \Kopjra\GuzzleBundle\KopjraGuzzleBundle(),
         ];
 

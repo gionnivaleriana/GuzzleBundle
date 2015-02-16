@@ -2,6 +2,7 @@
 
 namespace Kopjra\GuzzleBundle;
 
+use Kopjra\GuzzleBundle\DependencyInjection\Compiler\ServicesCompilerPass;
 use Kopjra\GuzzleBundle\DependencyInjection\Compiler\SubscribersCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
