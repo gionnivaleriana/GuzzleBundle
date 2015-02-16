@@ -58,7 +58,6 @@ class LogSubscriber implements SubscriberInterface
     {
         $logger = $this->logger;
         $request = $event->getRequest();
-        var_dump($request); die;
         $message = sprintf(
             '[%s] %s %s',
             $name,
