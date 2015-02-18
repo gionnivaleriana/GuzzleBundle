@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
     private $defaultSubscribers = [
         'cache' => false,
         'log' => false,
-        'oauth' => false,
+        'oauth1' => false,
         'retry' => false,
     ];
 
@@ -47,7 +47,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->append($this->addCacheSubscriberNode())
                         ->append($this->addLogSubscriberNode())
-                        ->append($this->addOAuthSubscriberNode())
+                        ->append($this->addOAuth1SubscriberNode())
                         ->append($this->addRetrySubscriberNode())
                     ->end()
                 ->end()
@@ -59,16 +59,16 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * Add a configuration for the oauth subscriber.
+     * Add a configuration for the OAuth 1 subscriber.
      *
      * @link https://github.com/guzzle/oauth-subscriber
      *
      * @return TreeBuilder
      */
-    private function addOAuthSubscriberNode()
+    private function addOAuth1SubscriberNode()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('oauth');
+        $rootNode = $treeBuilder->root('oauth1');
 
         $rootNode
             ->addDefaultsIfNotSet()

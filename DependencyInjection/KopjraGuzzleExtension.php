@@ -75,10 +75,10 @@ class KopjraGuzzleExtension extends Extension
         }
 
         // OAuth is loaded only if it's enabled
-        if ($config['oauth']['enabled']) {
-            $loader->load('oauth.xml');
+        if ($config['oauth1']['enabled']) {
+            $loader->load('oauth1.xml');
 
-            $this->loadOAuthConfiguration($config['oauth'], $container);
+            $this->loadOAuthConfiguration($config['oauth1'], $container);
         }
 
         // Retry system is loaded only if it's enabled
@@ -111,31 +111,31 @@ class KopjraGuzzleExtension extends Extension
     private function loadOAuthConfiguration(array $config, ContainerBuilder $container)
     {
         // required configurations
-        $container->setParameter('kpj_guzzle.subscribers.oauth.consumer_key', $config['consumer_key']);
-        $container->setParameter('kpj_guzzle.subscribers.oauth.consumer_secret', $config['consumer_secret']);
-        $container->setParameter('kpj_guzzle.subscribers.oauth.oauth_version', $config['version']);
-        $container->setParameter('kpj_guzzle.subscribers.oauth.request_method', $config['request_method']);
-        $container->setParameter('kpj_guzzle.subscribers.oauth.signature_method', $config['signature_method']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.consumer_key', $config['consumer_key']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.consumer_secret', $config['consumer_secret']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.oauth_version', $config['version']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.request_method', $config['request_method']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.signature_method', $config['signature_method']);
 
         // optional configurations
         if ($config['callback']) {
-            $container->setParameter('kpj_guzzle.subscribers.oauth.callback', $config['callback']);
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.callback', $config['callback']);
         }
 
         if ($config['realm']) {
-            $container->setParameter('kpj_guzzle.subscribers.oauth.realm', $config['realm']);
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.realm', $config['realm']);
         }
 
         if ($config['token']) {
-            $container->setParameter('kpj_guzzle.subscribers.oauth.token', $config['token']);
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.token', $config['token']);
         }
 
         if ($config['token_secret']) {
-            $container->setParameter('kpj_guzzle.subscribers.oauth.token_secret', $config['token_secret']);
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.token_secret', $config['token_secret']);
         }
 
         if ($config['verifier']) {
-            $container->setParameter('kpj_guzzle.subscribers.oauth.oauth_verifier', $config['verifier']);
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.oauth_verifier', $config['verifier']);
         }
     }
 

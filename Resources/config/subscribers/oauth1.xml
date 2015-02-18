@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="kpj_guzzle.subscribers.oauth1.class">GuzzleHttp\Subscriber\Oauth\Oauth1</parameter>
+        <parameter key="kpj_guzzle.subscribers.oauth1.consumer_key">anonymous</parameter>
+        <parameter key="kpj_guzzle.subscribers.oauth1.consumer_secret">anonymous</parameter>
+        <parameter key="kpj_guzzle.subscribers.oauth1.oauth_callback"/>
+        <parameter key="kpj_guzzle.subscribers.oauth1.oauth_realm"/>
+        <parameter key="kpj_guzzle.subscribers.oauth1.oauth_verifier"/>
+        <parameter key="kpj_guzzle.subscribers.oauth1.oauth_version" type="string">1.0</parameter>
+        <parameter key="kpj_guzzle.subscribers.oauth1.request_method">head</parameter>
+        <parameter key="kpj_guzzle.subscribers.oauth1.signature_method">HMAC-SHA1</parameter>
+        <parameter key="kpj_guzzle.subscribers.oauth1.token"/>
+        <parameter key="kpj_guzzle.subscribers.oauth1.token_secret"/>
+    </parameters>
+    <services>
+        <service class="%kpj_guzzle.subscribers.oauth1.class%" id="kpj_guzzle.subscribers.oauth1" public="false">
+            <argument type="collection">
+                <argument key="consumer_key">%kpj_guzzle.subscribers.oauth1.consumer_key%</argument>
+                <argument key="consumer_secret">%kpj_guzzle.subscribers.oauth1.consumer_secret%</argument>
+                <argument key="oauth_callback">%kpj_guzzle.subscribers.oauth1.oauth_callback%</argument>
+                <argument key="oauth_realm">%kpj_guzzle.subscribers.oauth1.oauth_realm%</argument>
+                <argument key="oauth_verifier">%kpj_guzzle.subscribers.oauth1.oauth_verifier%</argument>
+                <argument key="oauth_version">%kpj_guzzle.subscribers.oauth1.oauth_version%</argument>
+                <argument key="request_method">%kpj_guzzle.subscribers.oauth1.request_method%</argument>
+                <argument key="signature_method">%kpj_guzzle.subscribers.oauth1.signature_method%</argument>
+                <argument key="token">%kpj_guzzle.subscribers.oauth1.token%</argument>
+                <argument key="token_secret">%kpj_guzzle.subscribers.oauth1.token_secret%</argument>
+            </argument>
+            <tag name="kpj_guzzle.subscriber"/>
+        </service>
+    </services>
+</container>
