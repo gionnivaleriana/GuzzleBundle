@@ -75,11 +75,66 @@ class KopjraGuzzleExtension extends Extension
         // OAuth is loaded only if it's enabled
         if ($config['oauth']['enabled']) {
             $loader->load('oauth.xml');
+
+            $this->loadOAuthConfiguration($config['oauth'], $container);
         }
 
         // Retry system is loaded only if it's enabled
         if ($config['retry']['enabled']) {
             $loader->load('retry.xml');
+
+            $this->loadRetryConfiguration($config['retry'], $container);
         }
+    }
+
+    /**
+     * Loads different OAuth configurations.
+     *
+     * @param array            $config    OAuth section only.
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function loadOAuthConfiguration(array $config, ContainerBuilder $container)
+    {
+        // required configurations
+        $container->setParameter('kpj_guzzle.subscribers.oauth.consumer_key', $config['consumer_key']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth.consumer_secret', $config['consumer_secret']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth.oauth_version', $config['version']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth.request_method', $config['request_method']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth.signature_method', $config['signature_method']);
+
+        // optional configurations
+        if ($config['callback']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth.callback', $config['callback']);
+        }
+
+        if ($config['realm']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth.realm', $config['realm']);
+        }
+
+        if ($config['token']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth.token', $config['token']);
+        }
+
+        if ($config['token_secret']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth.token_secret', $config['token_secret']);
+        }
+
+        if ($config['verifier']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth.oauth_verifier', $config['verifier']);
+        }
+    }
+
+    /**
+     * Loads different retry configurations.
+     *
+     * @param array            $config    Retry section only.
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function loadRetryConfiguration(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('kpj_guzzle.subscribers.retry.delay', $config['delay']);
+        $container->setParameter('kpj_guzzle.subscribers.retry.filter.class', $config['filter']['class']);
+        $container->setParameter('kpj_guzzle.subscribers.retry.filter.method', $config['filter']['method']);
+        $container->setParameter('kpj_guzzle.subscribers.retry.max', $config['max']);
     }
 }
