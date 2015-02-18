@@ -122,12 +122,6 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->canBeEnabled()
             ->info('https://github.com/guzzle/cache-subscriber')
-            ->children()
-                ->scalarNode('provider')
-                    ->cannotBeEmpty()
-                    ->defaultValue('GuzzleHttp\Subscriber\Cache\CacheSubscriber')
-                ->end()
-            ->end()
         ;
 
         return $rootNode;

@@ -62,6 +62,8 @@ class KopjraGuzzleExtension extends Extension
 
         // Cache is loaded only if it's enabled
         if ($config['cache']['enabled']) {
+            $this->createCacheDefaultStorage($container);
+
             $loader->load('cache.xml');
         }
 
@@ -84,6 +86,19 @@ class KopjraGuzzleExtension extends Extension
             $loader->load('retry.xml');
 
             $this->loadRetryConfiguration($config['retry'], $container);
+        }
+    }
+
+    /**
+     * Create a default storage if no one is provided (that ID is required).
+     *
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function createCacheDefaultStorage(ContainerBuilder $container)
+    {
+        if (!$container->has('kpj_guzzle.subscribers.cache.storage')) {
+            $class = $container->getParameter('kpj_guzzle.subscribers.cache.storage.class');
+            $container->register('kpj_guzzle.subscribers.cache.storage', $class);
         }
     }
 
