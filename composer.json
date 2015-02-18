@@ -15,6 +15,7 @@
         }
     },
     "description": "Kopjra Guzzle 5 Bundle",
+    "license": "MIT",
     "name": "gionnivaleriana/guzzle-bundle",
     "require": {
         "guzzlehttp/guzzle": "~5.2",

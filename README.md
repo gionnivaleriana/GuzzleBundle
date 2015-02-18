@@ -198,3 +198,10 @@ Authors
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gionnivaleriana/guzzlebundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+
+License
+-------
+
+This bundle is under the MIT license. See the complete license in the bundle:
+
+    Resources/meta/LICENSE
