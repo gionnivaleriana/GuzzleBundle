@@ -17,11 +17,17 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
      */
     private $config;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         $this->config = new Configuration();
     }
 
+    /**
+     * @covers ::getConfigTreeBuilder
+     */
     public function testGetConfigTreeBuilder()
     {
         $this->assertInstanceOf(
