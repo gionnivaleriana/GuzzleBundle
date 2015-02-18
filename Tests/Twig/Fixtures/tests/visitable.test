@@ -1,0 +1,14 @@
+--TEST--
+"visitable" test
+--TEMPLATE--
+{{ httpbin_url is visitable ? 1 : 0 }}
+{{ wrong_url is visitable ? 1 : 0 }}
+
+--DATA--
+return array(
+    'httpbin_url' => 'http://httpbin.org/get',
+    'wrong_url' => '///test',
+)
+--EXPECT--
+1
+0
