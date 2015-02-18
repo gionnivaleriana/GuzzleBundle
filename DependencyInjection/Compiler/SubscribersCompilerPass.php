@@ -20,10 +20,10 @@ class SubscribersCompilerPass implements CompilerPassInterface
         $subscribers = $container->findTaggedServiceIds('kpj_guzzle.subscriber');
 
         $static = array_filter($subscribers, function ($attrs) {
-            return isset($attrs['static']) && $attrs['static'];
+            return isset($attrs[0]['static']) && $attrs[0]['static'];
         });
         foreach ($static as $subscriber => $attrs) {
-            $this->addStatic($container, $subscriber, $attrs);
+            $this->addStatic($container, $subscriber, $attrs[0]);
         }
 
         $dynamic = array_diff($subscribers, $static);

@@ -21,9 +21,9 @@ class ServicesCompilerPass implements CompilerPassInterface
         $serviceClass = $container->getParameter('kpj_guzzle.service.class');
 
         foreach ($subscribers as $id => $attrs) {
-            $subscribers[$id]['name'] = isset($attrs['name'])
-                ? 'kpj_guzzle.services.'.$attrs['name']
-                : 'kpj_guzzle.services.'.$id;
+            if (!isset($attrs[0]['name'])) {
+                $subscribers[$id][0]['name'] = $id;
+            }
         }
 
         foreach ($subscribers as $id => $attrs) {
@@ -32,7 +32,7 @@ class ServicesCompilerPass implements CompilerPassInterface
                 new Reference($id),
             ]);
 
-            $container->createService($definition, $attrs['name']);
+            $container->createService($definition, 'kpj_guzzle.services.'.$attrs[0]['name']);
         }
     }
 }
