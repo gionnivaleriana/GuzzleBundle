@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         'log' => false,
         'oauth1' => false,
         'retry' => false,
+        'server_cache' => false,
     ];
 
     /**
@@ -49,6 +50,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addLogSubscriberNode())
                         ->append($this->addOAuth1SubscriberNode())
                         ->append($this->addRetrySubscriberNode())
+                        ->append($this->addServerCacheSubscriberNode())
                     ->end()
                 ->end()
                 ->append($this->addTwigExtensionNode())
@@ -122,6 +124,27 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->canBeEnabled()
             ->info('https://github.com/guzzle/cache-subscriber')
+        ;
+
+        return $rootNode;
+    }
+
+    /**
+     * Add a configuration for the server side cache subscriber.
+     *
+     * @link https://github.com/EmanueleMinotto/guzzle-cache-subscriber
+     *
+     * @return TreeBuilder
+     */
+    private function addServerCacheSubscriberNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('server_cache');
+
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->canBeEnabled()
+            ->info('https://github.com/EmanueleMinotto/guzzle-cache-subscriber')
         ;
 
         return $rootNode;

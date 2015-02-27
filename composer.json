@@ -27,11 +27,13 @@
         "guzzlehttp/log-subscriber": "~1.0",
         "guzzlehttp/oauth-subscriber": "~0.2",
         "guzzlehttp/retry-subscriber": "~2.0",
+        "emanueleminotto/guzzle-cache-subscriber": "~1.0",
         "phpunit/phpunit": "~4.5",
         "symfony/monolog-bundle": "~2.4",
         "symfony/symfony": "~2.5"
     },
     "suggest": {
+        "emanueleminotto/guzzle-cache-subscriber": "provide the server side caching subscriber",
         "guzzlehttp/cache-subscriber": "provide the client side caching subscriber",
         "guzzlehttp/guzzle-services": "allows guzzle services definition",
         "guzzlehttp/log-subscriber": "provide the log subscriber",

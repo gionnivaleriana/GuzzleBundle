@@ -62,9 +62,18 @@ class KopjraGuzzleExtension extends Extension
 
         // Cache is loaded only if it's enabled
         if ($config['cache']['enabled']) {
-            $this->createCacheDefaultStorage($container);
-
             $loader->load('cache.xml');
+        }
+
+        // Server side cache is loaded only if it's enabled
+        if ($config['server_cache']['enabled']) {
+            $loader->load('server_cache.xml');
+        }
+
+        // both types of cache above require a storage system
+        // base on doctrine/cache and a service, so it should be initialized
+        if ($config['cache']['enabled'] || $config['server_cache']['enabled']) {
+            $this->createCacheDefaultStorage($container);
         }
 
         // Logger is loaded only if it's enabled
