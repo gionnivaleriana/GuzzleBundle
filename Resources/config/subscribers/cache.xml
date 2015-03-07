@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="kopjra_guzzle.subscribers.cache.class">Kopjra\GuzzleBundle\Subscribers\CacheSubscriber</parameter>
-        <parameter key="kopjra_guzzle.subscribers.cache.provider">Doctrine\Common\Cache\ArrayCache</parameter>
-        <parameter key="kopjra_guzzle.subscribers.cache.type">client</parameter>
+        <parameter key="kpj_guzzle.subscribers.cache.class">GuzzleHttp\Subscriber\Cache\CacheSubscriber</parameter>
+        <parameter key="kpj_guzzle.subscribers.cache.purge">true</parameter>
+        <parameter key="kpj_guzzle.subscribers.cache.storage.class">Doctrine\Common\Cache\ArrayCache</parameter>
+        <parameter key="kpj_guzzle.subscribers.cache.storage_wrapper.class">GuzzleHttp\Subscriber\Cache\CacheStorage</parameter>
+        <parameter key="kpj_guzzle.subscribers.cache.validate">true</parameter>
     </parameters>
     <services>
-        <service class="%kopjra_guzzle.subscribers.cache.provider%" id="kopjra.guzzle.cache.subscribers.provider" public="false"/>
-        <service class="%kopjra_guzzle.subscribers.cache.class%" id="kopjra.guzzle.subscribers.cache" public="true">
-            <argument id="kopjra.guzzle.cache.subscribers.provider" type="service"/>
-            <argument>%kopjra_guzzle.subscribers.cache.type%</argument>
-            <tag name="guzzle.subscriber"/>
+        <service class="%kpj_guzzle.subscribers.cache.class%" id="kpj_guzzle.subscribers.cache" public="false">
+            <tag name="kpj_guzzle.subscriber" static="true"/>
+            <parameter type="collection">
+                <parameter key="purge">%kpj_guzzle.subscribers.cache.purge%</parameter>
+                <parameter key="storage" name="kpj_guzzle.subscribers.cache.storage_wrapper" type="service"/>
+                <parameter key="validate">%kpj_guzzle.subscribers.cache.validate%</parameter>
+            </parameter>
         </service>
+        <service class="%kpj_guzzle.subscribers.cache.storage.class%" name="kpj_guzzle.subscribers.cache.storage_wrapper" public="false">
+            <argument name="kpj_guzzle.subscribers.cache.storage_implementation" type="service"/>
+        </service>
+        <!-- if this is not defined by the user, then it's defined in Kopjra\GuzzleBundle\DependencyInjection\KopjraGuzzleExtension -->
+        <!-- <service class="%kpj_guzzle.subscribers.cache.storage_implementation.class%" name="kpj_guzzle.subscribers.cache.storage"/> -->
     </services>
 </container>

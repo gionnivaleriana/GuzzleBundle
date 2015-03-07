@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="kpj_guzzle.class">GuzzleHttp\Client</parameter>
+        <parameter key="kpj_guzzle.event.emitter.class">GuzzleHttp\Event\Emitter</parameter>
+        <parameter key="kpj_guzzle.service.class">GuzzleHttp\Command\Guzzle\GuzzleClient</parameter>
+    </parameters>
     <services>
-        <service class="GuzzleHttp\Client" id="guzzle">
+        <service class="%kpj_guzzle.class%" id="kpj_guzzle">
             <argument/>
         </service>
-        <service class="Kopjra\GuzzleBundle\Twig\GuzzleExtension" id="kopjra.guzzle_bundle.twig.guzzle_extension" public="false">
-            <argument id="guzzle" type="service"/>
-            <tag name="twig.extension"/>
-        </service>
-        <service class="Kopjra\GuzzleBundle\EventListener\Emitter" id="kopjra.guzzle_bundle.event_listener.emitter" public="false"/>
+        <service class="%kpj_guzzle.event.emitter.class%" id="kpj_guzzle.event.emitter"/>
     </services>
 </container>

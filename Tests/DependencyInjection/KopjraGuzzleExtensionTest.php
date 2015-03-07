@@ -3,11 +3,13 @@
 namespace Kopjra\GuzzleBundle\Tests\DependencyInjection;
 
 use Kopjra\GuzzleBundle\Tests\AppKernel;
+use PHPUnit_Framework_TestCase;
 
 /**
  * @coversDefaultClass \Kopjra\GuzzleBundle\DependencyInjection\KopjraGuzzleExtension
  */
-class KopjraGuzzleExtensionTest extends \PHPUnit_Framework_TestCase {
+class KopjraGuzzleExtensionTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var \Symfony\Component\HttpKernel\Kernel
      */
@@ -16,7 +18,8 @@ class KopjraGuzzleExtensionTest extends \PHPUnit_Framework_TestCase {
     /**
      * {@inheritdoc}
      */
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->kernel = new AppKernel('KopjraGuzzleExtensionTest', true);
         $this->kernel->boot();
     }
@@ -24,10 +27,11 @@ class KopjraGuzzleExtensionTest extends \PHPUnit_Framework_TestCase {
     /**
      * @covers ::load
      */
-    public function testService() {
+    public function testService()
+    {
         $container = $this->kernel->getContainer();
 
-        $this->assertTrue($container->has('guzzle'));
-        $this->assertInstanceOf('GuzzleHttp\\ClientInterface', $container->get('guzzle'));
+        $this->assertTrue($container->has('kpj_guzzle'));
+        $this->assertInstanceOf('GuzzleHttp\\ClientInterface', $container->get('kpj_guzzle'));
     }
 }

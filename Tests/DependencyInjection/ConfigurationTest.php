@@ -1,31 +1,38 @@
 <?php
-/**
- * @author Joy Lazari <joy.lazari@gmail.com>
- * @date 15/02/15
- * @pakage GuzzleBundle
- */
 
 namespace Kopjra\GuzzleBundle\Tests\DependencyInjection\Configuration;
 
-
 use Kopjra\GuzzleBundle\DependencyInjection\Configuration;
+use PHPUnit_Framework_TestCase;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase {
-
+/**
+ * @author Joy Lazari <joy.lazari@gmail.com>
+ *
+ * @coversDefaultClass \Kopjra\GuzzleBundle\DependencyInjection\Configuration
+ */
+class ConfigurationTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var Configuration
      */
-    protected $Configuration;
+    private $config;
 
-    public function setUp(){
-        $this->Configuration = new Configuration();
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp()
+    {
+        $this->config = new Configuration();
     }
 
-    public function testGetConfigTreeBuilder(){
+    /**
+     * @covers ::getConfigTreeBuilder
+     */
+    public function testGetConfigTreeBuilder()
+    {
         $this->assertInstanceOf(
-            'Symfony\Component\Config\Definition\Builder\TreeBuilder',
-            $this->Configuration->getConfigTreeBuilder()
+            'Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder',
+            $this->config->getConfigTreeBuilder()
         );
     }
-
 }

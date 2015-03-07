@@ -1,39 +1,44 @@
 {
+    "name": "gionnivaleriana/guzzle-bundle",
+    "description": "Kopjra Guzzle 5 Bundle",
+    "license": "MIT",
     "authors": [
         {
-            "email": "emanuele.minotto@kopjra.com",
-            "name": "Emanuele Minotto"
+            "name": "Emanuele Minotto",
+            "email": "minottoemanuele@gmail.com",
+            "homepage": "http://www.emanueleminotto.it"
         },
         {
-            "email": "joy.lazari@gmail.com",
-            "name": "Joy Lazari"
+            "name": "Joy Lazari",
+            "email": "joy.lazari@gmail.com"
         }
     ],
+    "require": {
+        "guzzlehttp/guzzle": "~5.2",
+        "php": ">= 5.4"
+    },
+    "require-dev": {
+        "guzzlehttp/cache-subscriber": "~0.1",
+        "guzzlehttp/guzzle-services": "~0.5",
+        "guzzlehttp/log-subscriber": "~1.0",
+        "guzzlehttp/oauth-subscriber": "~0.2",
+        "guzzlehttp/retry-subscriber": "~2.0",
+        "emanueleminotto/guzzle-cache-subscriber": "~1.0",
+        "phpunit/phpunit": "~4.5",
+        "symfony/monolog-bundle": "~2.4",
+        "symfony/symfony": "~2.5"
+    },
+    "suggest": {
+        "emanueleminotto/guzzle-cache-subscriber": "provide the server side caching subscriber",
+        "guzzlehttp/cache-subscriber": "provide the client side caching subscriber",
+        "guzzlehttp/guzzle-services": "allows guzzle services definition",
+        "guzzlehttp/log-subscriber": "provide the log subscriber",
+        "guzzlehttp/oauth-subscriber": "provide the OAuth 1 subscriber",
+        "guzzlehttp/retry-subscriber": "provide the retry system subscriber"
+    },
     "autoload": {
         "psr-4": {
             "Kopjra\\GuzzleBundle\\": ""
         }
-    },
-    "description": "Kopjra Guzzle 5 Bundle",
-    "name": "gionnivaleriana/guzzle-bundle",
-    "require": {
-        "guzzlehttp/command": "0.7.*",
-        "guzzlehttp/guzzle": "5.2.0",
-        "guzzlehttp/guzzle-services": "0.5.0",
-        "guzzlehttp/log-subscriber": "1.0.1",
-        "guzzlehttp/oauth-subscriber": "0.2.0",
-        "guzzlehttp/retry-subscriber": "2.0.1",
-        "knplabs/knp-gaufrette-bundle": "0.1.*",
-        "php": ">= 5.4"
-    },
-    "require-dev": {
-        "guzzlehttp/cache-subscriber": "0.1.0",
-        "phpunit/phpunit": "4.5.0",
-        "symfony-cmf/testing": "2.0.x-dev",
-        "symfony/monolog-bundle": "~2.4",
-        "symfony/symfony": "2.5.9"
-    },
-    "suggest": {
-        "guzzlehttp/cache-subscriber": "provide client side caching"
     }
 }

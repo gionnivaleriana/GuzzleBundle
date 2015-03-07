@@ -1,0 +1,11 @@
+--TEST--
+"guzzle" function
+--TEMPLATE--
+{{ guzzle(httpbin_url).url }}
+
+--DATA--
+return array(
+    'httpbin_url' => 'http://httpbin.org/get',
+)
+--EXPECT--
+http://httpbin.org/get

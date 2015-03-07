@@ -13,9 +13,11 @@ use Twig_SimpleTest;
 /**
  * {@inheritdoc}
  */
-class GuzzleExtension extends Twig_Extension {
+class GuzzleExtension extends Twig_Extension
+{
     /**
      * Guzzle dependency
+     *
      * @var \GuzzleHttp\ClientInterface
      */
     private $client;
@@ -25,73 +27,92 @@ class GuzzleExtension extends Twig_Extension {
      *
      * @param \GuzzleHttp\ClientInterface $client
      */
-    public function __construct(ClientInterface $client) {
+    public function __construct(ClientInterface $client)
+    {
         $this->client = $client;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFilters() {
-        return [new Twig_SimpleFilter('guzzle', function ($value) {
-            $value = (string) $value;
+    public function getFilters()
+    {
+        return [
+            new Twig_SimpleFilter('guzzle', function ($value) {
+                $value = (string) $value;
 
-            if( ! filter_var($value, FILTER_VALIDATE_URL)) {
-                return;
-            }
-
-            return $this->client->get($value)->json();
-        }),];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTests() {
-        return [new Twig_SimpleTest('visitable', function ($value) {
-            if($value instanceof Url) {
-                return true;
-            }
-
-            if(is_string($value)) {
-                try {
-                    Url::fromString($value);
-                    return true;
-                } catch (Exception $e) {
-                    return false;
+                if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                    return;
                 }
-            }
 
-            return false;
-        }),];
+                return $this->client
+                            ->get($value)
+                            ->json();
+            }),
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getFunctions() {
-        return [new Twig_SimpleFunction('guzzle', function ($value) {
-            $value = (string) $value;
+    public function getTests()
+    {
+        return [
+            new Twig_SimpleTest('visitable', function ($value) {
+                if ($value instanceof Url) {
+                    return true;
+                }
 
-            if( ! filter_var($value, FILTER_VALIDATE_URL)) {
-                return;
-            }
+                if (is_string($value)) {
+                    try {
+                        Url::fromString($value);
 
-            return $this->client->get($value)->json();
-        }),];
+                        return true;
+                    } catch (Exception $e) {
+                        return false;
+                    }
+                }
+
+                return false;
+            }),
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getGlobals() {
-        return ['guzzle' => $this->client,];
+    public function getFunctions()
+    {
+        return [
+            new Twig_SimpleFunction('guzzle', function ($value) {
+                $value = (string) $value;
+
+                if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                    return;
+                }
+
+                return $this->client
+                            ->get($value)
+                            ->json();
+            }),
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName() {
-        return 'kopjra.guzzle_bundle.twig.guzzle_extension';
+    public function getGlobals()
+    {
+        return [
+            'guzzle' => $this->client,
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'kpj_guzzle.twig.guzzle_extension';
     }
 }

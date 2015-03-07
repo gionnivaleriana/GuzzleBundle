@@ -1,0 +1,7 @@
+imports:
+- resource: config.yml
+
+kopjra_guzzle:
+  subscribers:
+    cache:
+      enabled: true

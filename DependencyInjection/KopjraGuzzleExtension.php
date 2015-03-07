@@ -29,22 +29,136 @@ class KopjraGuzzleExtension extends Extension
         );
         $loader->load('services.xml');
 
-        // For each subscriber, if enabled, load services and parameters
-        foreach($config['subscribers'] as $subscriberName => $subscriber){
-            if($subscriber['enabled']){
-                $loader->load('subscribers/'.$subscriberName.'.xml');
-                foreach ($config['subscribers'][$subscriberName] as $parameterName => $parameter) {
-                    $container->setParameter('kopjra_guzzle.subscribers.'.$subscriberName.'.'.$parameterName, $parameter);
-                }
-            }
+        // Twig extension is loaded only if it's enabled
+        // If twig isn't available then this extension isn't loaded
+        if ($config['twig']['enabled'] && $container->hasDefinition('twig')) {
+            $loader->load('twig.xml');
         }
 
-        // If ServiceManager is enabled, load the service
-        if($config['services_manager']['enabled']){
-            $loader->load('manager/services.xml');
-            foreach ($config['services_manager'] as $parameterName => $parameter) {
-                $container->setParameter('kopjra_guzzle.services_manager.'.$parameterName, $parameter);
-            }
+        // Load subscribers sections
+        $this->loadSubscribers($config['subscribers'], $container);
+
+        // Replace the emitter with a new one because
+        // the framework doesn't allow calls on getters
+        $guzzle = $container->getDefinition('kpj_guzzle');
+
+        $config['client']['emitter'] = new Reference('kpj_guzzle.event.emitter');
+
+        $guzzle->replaceArgument(0, $config['client']);
+    }
+
+    /**
+     * For each subscriber, if enabled, load services and parameters.
+     *
+     * @param array            $config    Subscribers section only.
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function loadSubscribers(array $config, ContainerBuilder $container)
+    {
+        $loader = new Loader\XmlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config/subscribers')
+        );
+
+        // Cache is loaded only if it's enabled
+        if ($config['cache']['enabled']) {
+            $loader->load('cache.xml');
         }
+
+        // Server side cache is loaded only if it's enabled
+        if ($config['server_cache']['enabled']) {
+            $loader->load('server_cache.xml');
+        }
+
+        // both types of cache above require a storage system
+        // base on doctrine/cache and a service, so it should be initialized
+        if ($config['cache']['enabled'] || $config['server_cache']['enabled']) {
+            $this->createCacheDefaultStorage($container);
+        }
+
+        // Logger is loaded only if it's enabled
+        // If monolog isn't available then logger isn't loaded
+        // http://slides.seld.be/?file=2011-10-20+High+Performance+Websites+with+Symfony2.html#33
+        if ($config['log']['enabled'] && $container->hasDefinition('logger')) {
+            $loader->load('log.xml');
+        }
+
+        // OAuth is loaded only if it's enabled
+        if ($config['oauth1']['enabled']) {
+            $loader->load('oauth1.xml');
+
+            $this->loadOAuthConfiguration($config['oauth1'], $container);
+        }
+
+        // Retry system is loaded only if it's enabled
+        if ($config['retry']['enabled']) {
+            $loader->load('retry.xml');
+
+            $this->loadRetryConfiguration($config['retry'], $container);
+        }
+    }
+
+    /**
+     * Create a default storage if no one is provided (that ID is required).
+     *
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function createCacheDefaultStorage(ContainerBuilder $container)
+    {
+        if (!$container->has('kpj_guzzle.subscribers.cache.storage')) {
+            $class = $container->getParameter('kpj_guzzle.subscribers.cache.storage.class');
+            $container->register('kpj_guzzle.subscribers.cache.storage', $class);
+        }
+    }
+
+    /**
+     * Loads different OAuth configurations.
+     *
+     * @param array            $config    OAuth section only.
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function loadOAuthConfiguration(array $config, ContainerBuilder $container)
+    {
+        // required configurations
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.consumer_key', $config['consumer_key']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.consumer_secret', $config['consumer_secret']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.oauth_version', $config['version']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.request_method', $config['request_method']);
+        $container->setParameter('kpj_guzzle.subscribers.oauth1.signature_method', $config['signature_method']);
+
+        // optional configurations
+        if ($config['callback']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.callback', $config['callback']);
+        }
+
+        if ($config['realm']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.realm', $config['realm']);
+        }
+
+        if ($config['token']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.token', $config['token']);
+        }
+
+        if ($config['token_secret']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.token_secret', $config['token_secret']);
+        }
+
+        if ($config['verifier']) {
+            $container->setParameter('kpj_guzzle.subscribers.oauth1.oauth_verifier', $config['verifier']);
+        }
+    }
+
+    /**
+     * Loads different retry configurations.
+     *
+     * @param array            $config    Retry section only.
+     * @param ContainerBuilder $container Container builder.
+     */
+    private function loadRetryConfiguration(array $config, ContainerBuilder $container)
+    {
+        $container->setParameter('kpj_guzzle.subscribers.retry.delay', $config['delay']);
+        $container->setParameter('kpj_guzzle.subscribers.retry.filter.class', $config['filter']['class']);
+        $container->setParameter('kpj_guzzle.subscribers.retry.filter.method', $config['filter']['method']);
+        $container->setParameter('kpj_guzzle.subscribers.retry.max', $config['max']);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace Kopjra\GuzzleBundle;
 
-use Kopjra\GuzzleBundle\DependencyInjection\Compiler\EventsCompilerPass;
+use Kopjra\GuzzleBundle\DependencyInjection\Compiler\ServicesCompilerPass;
+use Kopjra\GuzzleBundle\DependencyInjection\Compiler\SubscribersCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * ...
+ * {@inheritdoc}
  */
 class KopjraGuzzleBundle extends Bundle
 {
@@ -18,6 +19,7 @@ class KopjraGuzzleBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new EventsCompilerPass());
+        $container->addCompilerPass(new SubscribersCompilerPass());
+        $container->addCompilerPass(new ServicesCompilerPass());
     }
 }

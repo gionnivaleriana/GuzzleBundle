@@ -8,7 +8,7 @@ use Exception;
 use GuzzleHttp\Url;
 
 /**
- * ...
+ * {@inheritdoc}
  */
 class UrlType extends Type
 {
@@ -17,7 +17,7 @@ class UrlType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if (is_null($value) || !trim($value)) {
+        if (!trim($value)) {
             return;
         }
 
@@ -33,7 +33,7 @@ class UrlType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (is_null($value) || !trim($value)) {
+        if (!trim($value)) {
             return;
         }
 
@@ -45,7 +45,7 @@ class UrlType extends Type
      */
     public function getName()
     {
-        return 'url';
+        return 'kpj_guzzle_url';
     }
 
     /**
